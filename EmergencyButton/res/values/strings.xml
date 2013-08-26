@@ -4,5 +4,6 @@
     <string name="app_name">Emergency Button</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
+	<string name="emergency_button">HELP</string>
+	<string name="check_in_button">Check In</string>
 </resources>
