@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
+import com.parse.Parse;
+import com.parse.ParseAnalytics;
+import com.parse.ParseObject;
 
 public class MainActivity extends Activity {
 
@@ -26,6 +29,13 @@ public class MainActivity extends Activity {
 	}    
 	
     public void initiateAlert(View view){
+    	// Stuff to send alarm to server
+        Parse.initialize(this, "MVq1PZGssKpeTZAWjqvgljViUY1FE1WtyZiuVDTa", "TUfSe1TeyJNCQAtTrUXuM7Rpeyv25wvoRhun9LkR"); 
+        ParseAnalytics.trackAppOpened(getIntent());
+        ParseObject testObject = new ParseObject("TestObject");
+        testObject.put("foo", "bar");
+        testObject.saveInBackground();
+        
     	Intent intent = new Intent(this, HandleAlert.class);
     	startActivity(intent);
     }
