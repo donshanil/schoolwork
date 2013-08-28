@@ -20,12 +20,14 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         
         // Initialize Parse
-        Parse.initialize(this, "MVq1PZGssKpeTZAWjqvgljViUY1FE1WtyZiuVDTa", "TUfSe1TeyJNCQAtTrUXuM7Rpeyv25wvoRhun9LkR"); 
+        Parse.initialize(this, "MVq1PZGssKpeTZAWjqvgljViUY1FE1WtyZiuVDTa", "TUfSe1TeyJNCQAtTrUXuM7Rpeyv25wvoRhun9LkR");
+        
         PushService.setDefaultPushCallback(this, MainActivity.class);
         ParseInstallation.getCurrentInstallation().saveInBackground();
         // ParseAnalytics.trackAppOpened(getIntent()); // For Tracking
         
-        PushService.subscribe(this, "Carers", MainActivity.class);
+        // Push Service (As Carer) (Not Final, just for demo)
+        PushService.subscribe(this, "Carers", CarerHome.class);
     }
 
     @Override
