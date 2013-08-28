@@ -1,5 +1,7 @@
 package group4.emergencybutton;
 
+import com.parse.ParseObject;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -52,6 +54,12 @@ public class HandleAlert extends Activity {
 	
 	// Cancel Alert and Bring user back to home
 	public void cancelAlert(View view){
+		// Tell Server to Cancel Alarm
+        ParseObject testObject = new ParseObject("Alarm");
+        testObject.put("Name", "Harlan Wade");
+        testObject.put("Activated", false);        
+        testObject.saveInBackground();
+        
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 	}

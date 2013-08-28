@@ -8,7 +8,7 @@
     <string name="main_activity">Emergency Button Home</string>
     
     <string name="title_activity_handle_alert">HandleAlert</string>
-    <string name="handle_alert">Help Requested!</string>
+    <string name="handle_alert">Help is on the way! If you did not request this alarm, please Cancel below.</string>
     
     <string name="emergency_button">HELP!</string>
     <string name="check_in_button">Check-In</string>
