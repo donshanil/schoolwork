@@ -9,6 +9,7 @@ import com.parse.Parse;
 import com.parse.ParseAnalytics;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.PushService;
 
 public class MainActivity extends Activity {
@@ -23,6 +24,8 @@ public class MainActivity extends Activity {
         PushService.setDefaultPushCallback(this, MainActivity.class);
         ParseInstallation.getCurrentInstallation().saveInBackground();
         // ParseAnalytics.trackAppOpened(getIntent()); // For Tracking
+        
+        PushService.subscribe(this, "Carers", MainActivity.class);
     }
 
     @Override
@@ -43,6 +46,12 @@ public class MainActivity extends Activity {
         testObject.put("Activated", true);
         testObject.saveInBackground();
         
+        // Notify Carers on Alarm
+        ParsePush push = new ParsePush();
+        push.setChannel("Carers");
+        push.setMessage("Harlan Wade needs HELP!!!");
+        push.sendInBackground();
+        
     	Intent intent = new Intent(this, HandleAlert.class);
     	startActivity(intent);
     }
@@ -53,8 +62,16 @@ public class MainActivity extends Activity {
         testObject.put("Name", "Harlan Wade");
         testObject.saveInBackground();
         
+        // Notify Carers on Check-In
+        ParsePush push = new ParsePush();
+        push.setChannel("Carers");
+        push.setMessage("Harlan Wade just checked in!");
+        push.sendInBackground();
+        
+        /*
     	Intent intent = new Intent(this, MainActivity.class);
     	startActivity(intent);
+    	*/
     }
     
 }

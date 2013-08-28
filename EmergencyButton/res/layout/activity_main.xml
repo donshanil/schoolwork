@@ -13,32 +13,35 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:orientation="vertical">
-        
-	    <TextView
-	        android:id="@+id/logged"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:text="@string/main_activity" />
-	    
-	    <Button 
+
+        <TextView
+            android:id="@+id/logged"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+	        android:layout_marginLeft="30dip"
+	        android:layout_marginRight="30dip"
+            android:text="You are logged in as - Harlan Wade" /> <!-- Will make this automated later -->
+
+	    <Button
 	        android:id="@+id/emergency_button"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_marginLeft="30dip"
 	        android:layout_marginRight="30dip"
-	        android:textSize="60sp"
+	        android:onClick="initiateAlert"
 	        android:text="@string/emergency_button"
-	        android:onClick="initiateAlert"/>
-	    
-	    <Button 
+	        android:textSize="60sp" />
+
+	    <Button
 	        android:id="@+id/check_in_button"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-			android:layout_marginLeft="30dip"
+	        android:layout_marginLeft="30dip"
 	        android:layout_marginRight="30dip"
-	        android:textSize="35sp"
+	        android:onClick="checkIn"
 	        android:text="@string/check_in_button"
-	        android:onClick="checkIn"/>
+	        android:textSize="35sp" />
+
     </LinearLayout>
 
 </RelativeLayout>

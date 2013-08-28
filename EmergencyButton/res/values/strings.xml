@@ -5,9 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     
-    <string name="main_activity">Emergency Button Home</string>
-    
-    <string name="title_activity_handle_alert">HandleAlert</string>
+    <string name="title_activity_handle_alert">Handle Alert</string>
     <string name="handle_alert">Help is on the way! If you did not request this alarm, please Cancel below.</string>
     
     <string name="emergency_button">HELP!</string>

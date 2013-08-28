@@ -1,6 +1,7 @@
 package group4.emergencybutton;
 
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -59,6 +60,12 @@ public class HandleAlert extends Activity {
         testObject.put("Name", "Harlan Wade");
         testObject.put("Activated", false);        
         testObject.saveInBackground();
+        
+        // Notify Carers on Cancel
+        ParsePush push = new ParsePush();
+        push.setChannel("Carers");
+        push.setMessage("Harlan Wade has cancelled his/her alarm.");
+        push.sendInBackground();
         
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
