@@ -23,3 +23,10 @@ Instructions to Run with Device
 4. Run as Device
 5. ???
 6. Profit!
+
+Instructions to run Unit Testing
+1. Import both Test and the original project into ADT.
+2. Add JUnit to the project build path for Testing
+3. Run test.
+4. ???
+5. Profit
