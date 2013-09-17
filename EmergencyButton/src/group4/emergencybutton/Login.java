@@ -4,8 +4,6 @@ import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -20,26 +18,7 @@ public class Login extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
-		Parse.initialize(this, "MVq1PZGssKpeTZAWjqvgljViUY1FE1WtyZiuVDTa", "TUfSe1TeyJNCQAtTrUXuM7Rpeyv25wvoRhun9LkR");		
-		
-		ParseUser user = new ParseUser();
-		user.setUsername("Carer");
-		user.setPassword("CarerPass");
-		user.setEmail("Carer@example.com");
-		 
-		// other fields can be set just like with ParseObject
-		user.put("Type", "Carer");
-		 
-		user.signUpInBackground(new SignUpCallback() {
-		  public void done(ParseException e) {
-		    if (e == null) {
-		      // Hooray! Let them use the app now.
-		    } else {
-		      // Sign up didn't succeed. Look at the ParseException
-		      // to figure out what went wrong
-		    }
-		  }
-		});
+		Parse.initialize(this, "MVq1PZGssKpeTZAWjqvgljViUY1FE1WtyZiuVDTa", "TUfSe1TeyJNCQAtTrUXuM7Rpeyv25wvoRhun9LkR");
 	
 	}
 
