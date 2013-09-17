@@ -9,6 +9,7 @@ import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
+import com.parse.ParseUser;
 import com.parse.PushService;
 
 public class CareeHome extends Activity {
@@ -21,12 +22,20 @@ public class CareeHome extends Activity {
         // Initialize Parse
         Parse.initialize(this, "MVq1PZGssKpeTZAWjqvgljViUY1FE1WtyZiuVDTa", "TUfSe1TeyJNCQAtTrUXuM7Rpeyv25wvoRhun9LkR");
         
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        String usertype = currentUser.get("Type").toString();
+        if ((currentUser != null) && (usertype.equals("Caree"))) {
+          // do stuff with the user
+        } else {
+          // show the signup or login screen
+	    	Intent intent = new Intent(this, Login.class);
+	    	startActivity(intent);
+        }
+        
         PushService.setDefaultPushCallback(this, CareeHome.class);
         ParseInstallation.getCurrentInstallation().saveInBackground();
-        // ParseAnalytics.trackAppOpened(getIntent()); // For Tracking
-        
-        // Push Service (As Carer) (Not Final, just for demo)
-        PushService.subscribe(this, "Carers", CarerHome.class);
+        PushService.subscribe(this, "Carees", CareeHome.class);
+        //ParseAnalytics.trackAppOpened(getIntent()); // For Tracking
     }
 
     @Override
@@ -69,10 +78,6 @@ public class CareeHome extends Activity {
         push.setMessage("Harlan Wade just checked in!");
         push.sendInBackground();
         
-        /*
-    	Intent intent = new Intent(this, MainActivity.class);
-    	startActivity(intent);
-    	*/
     }
     
 }

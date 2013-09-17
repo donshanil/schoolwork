@@ -1,7 +1,9 @@
 package group4.emergencybutton;
 
 import com.parse.Parse;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.PushService;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -23,10 +25,15 @@ public class CarerHome extends Activity {
         if ((currentUser != null) && (usertype.equals("Carer"))) {
           // do stuff with the user
         } else {
-          // show the signup or login screen
+            // show the signup or login screen
 	    	Intent intent = new Intent(this, Login.class);
 	    	startActivity(intent);
         }
+        
+        // Save the current Installation to Parse.
+        PushService.setDefaultPushCallback(this, CarerHome.class);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+        PushService.subscribe(this, "Carers", CarerHome.class);
 	}
 	
     @Override
