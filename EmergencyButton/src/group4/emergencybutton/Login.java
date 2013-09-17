@@ -3,8 +3,6 @@ package group4.emergencybutton;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -25,12 +23,12 @@ public class Login extends Activity {
 		Parse.initialize(this, "MVq1PZGssKpeTZAWjqvgljViUY1FE1WtyZiuVDTa", "TUfSe1TeyJNCQAtTrUXuM7Rpeyv25wvoRhun9LkR");
 		
 		ParseUser user = new ParseUser();
-		user.setUsername("Caree");
-		user.setPassword("CareePass");
-		user.setEmail("Caree@email.com");
+		user.setUsername("Carer");
+		user.setPassword("CarerPass");
+		user.setEmail("Carer@email.com");
 		 
 		// other fields can be set just like with ParseObject
-		user.put("Type", "Caree");
+		user.put("Type", "Carer");
 		
 		user.signUpInBackground(new SignUpCallback() {
 			  public void done(ParseException e) {
@@ -69,7 +67,8 @@ public class Login extends Activity {
 			  public void done(ParseUser user, ParseException e) {
 			    if (user != null) {
 			      // Hooray! The user is logged in.
-			    	loggedIn();
+			    	ParseUser currentuser = ParseUser.getCurrentUser();
+			    	loggedIn(currentuser.get("Type").toString());
 			    } else {
 			      // Signup failed. Look at the ParseException to see what happened.
 			    }
@@ -77,9 +76,16 @@ public class Login extends Activity {
 			});
 	}
 	
-    private void loggedIn(){
-    	Intent intent = new Intent(this, MainActivity.class);
-    	startActivity(intent);
+    private void loggedIn(String type){
+    	
+    	if (type.equals("Caree")){
+	    	Intent intent = new Intent(this, CareeHome.class);
+	    	startActivity(intent);
+    	}
+    	else{
+	    	Intent intent = new Intent(this, CarerHome.class);
+	    	startActivity(intent);
+    	}
     }
 
 }

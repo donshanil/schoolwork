@@ -11,7 +11,7 @@ import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.PushService;
 
-public class MainActivity extends Activity {
+public class CareeHome extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
         // Initialize Parse
         Parse.initialize(this, "MVq1PZGssKpeTZAWjqvgljViUY1FE1WtyZiuVDTa", "TUfSe1TeyJNCQAtTrUXuM7Rpeyv25wvoRhun9LkR");
         
-        PushService.setDefaultPushCallback(this, MainActivity.class);
+        PushService.setDefaultPushCallback(this, CareeHome.class);
         ParseInstallation.getCurrentInstallation().saveInBackground();
         // ParseAnalytics.trackAppOpened(getIntent()); // For Tracking
         

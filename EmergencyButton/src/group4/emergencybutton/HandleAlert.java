@@ -41,7 +41,7 @@ public class HandleAlert extends Activity {
         push.setMessage("Harlan Wade has cancelled his/her alarm.");
         push.sendInBackground();
         
-		Intent intent = new Intent(this, MainActivity.class);
+		Intent intent = new Intent(this, CareeHome.class);
 		startActivity(intent);
 	}
 

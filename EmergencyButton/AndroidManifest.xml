@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="group4.emergencybutton.MainActivity"
+            android:name="group4.emergencybutton.CareeHome"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
