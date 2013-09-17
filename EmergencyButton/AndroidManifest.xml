@@ -18,31 +18,33 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
         <activity
             android:name="group4.emergencybutton.MainActivity"
-            android:label="@string/app_name"
             android:configChanges="orientation|keyboardHidden|keyboard"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="group4.emergencybutton.HandleAlert"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:label="@string/title_activity_handle_alert"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="group4.emergencybutton.CarerHome"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:label="@string/title_activity_carer_home"
+            android:screenOrientation="portrait" >
+        </activity>
+		<activity
+            android:name="group4.emergencybutton.Login"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:label="@string/title_activity_login"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        
-        <activity
-            android:name="group4.emergencybutton.HandleAlert"
-            android:label="@string/title_activity_handle_alert"
-            android:configChanges="orientation|keyboardHidden|keyboard"
-            android:screenOrientation="portrait" >
-        </activity>
-        
-		<activity
-            android:name="group4.emergencybutton.CarerHome"
-            android:label="@string/title_activity_carer_home"
-            android:configChanges="orientation|keyboardHidden|keyboard"
-            android:screenOrientation="portrait" >
         </activity>
 
         <service android:name="com.parse.PushService" />
@@ -53,8 +55,6 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-
-
     </application>
 
 </manifest>

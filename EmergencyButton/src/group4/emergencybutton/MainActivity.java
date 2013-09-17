@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import com.parse.Parse;
-import com.parse.ParseAnalytics;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;

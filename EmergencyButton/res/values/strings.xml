@@ -10,5 +10,9 @@
     <string name="check_in_button">Check-In</string>
     <string name="cancel_alert_button">Cancel</string>
     <string name="title_activity_carer_home">CarerHome</string>
+    <string name="title_activity_login">Login</string>
+    <string name="prompt_user">Username Here</string>
+    <string name="prompt_pass">Password Here</string>
+    <string name="login">Login!</string>
 
 </resources>
