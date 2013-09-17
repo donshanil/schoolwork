@@ -28,10 +28,16 @@ public class CarerHome extends Activity {
 	    	startActivity(intent);
         }
 	}
-
+	
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	// No Menu
+        return false;
+    }
+    
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		return false;
-	}
+	public void onBackPressed() {
+		// Don't Support "Back"
+	}    
 
 }
