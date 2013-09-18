@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "Emergency Button": {
+            "applicationId": "MVq1PZGssKpeTZAWjqvgljViUY1FE1WtyZiuVDTa", 
+            "masterKey": "nkC0cw0Hrf6ZPXxYnJy0ICWxgkjV8RqFSREn1ZOz"
+        }, 
+        "_default": {
+            "link": "Emergency Button"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.2.12"
+    }
+}
