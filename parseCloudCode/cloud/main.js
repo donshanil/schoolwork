@@ -5,12 +5,10 @@ Parse.Cloud.define("hello", function(request, response) {
   response.success("Hello world!");
 });
 
-Parse.Cloud.define("getPersonAlarms", function(request, response) {
-
-});
 
 Parse.Cloud.define("get_active_alarms", function(request, response) {
-	//returns an array of still activated alarms.
+	//THIS FUNCTION will return an object containing any activated alarms
+	//ie. the last message was not a cancel
 	var query = new Parse.Query("Alarm");
 	var num = 0;
 	var last_alarms=[ ];
@@ -25,8 +23,7 @@ Parse.Cloud.define("get_active_alarms", function(request, response) {
 				var d = new Date();
 				var name = results[i].get("Name");
 				var inlastalarm = 0;
-				d=results[i].updatedAt;
-				
+				d=results[i].updatedAt;			
 				obj.time = d;
 				obj.name = name;
 				obj.activated = results[i].get("Activated");	
@@ -45,13 +42,9 @@ Parse.Cloud.define("get_active_alarms", function(request, response) {
 					}
 				} 
 				if(inlastalarm == 0){
+					//if our alarm isn't already in the array, add it to the list
 					last_alarms.push(obj);
 				}
-							
-				
-				//var time = d.toJSON();
-				
-				//obj.shindiggles = num;
 			}
 			
 			//now we must look through the last alarms to see if they are activated or not.
