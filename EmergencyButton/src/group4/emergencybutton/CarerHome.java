@@ -42,8 +42,8 @@ public class CarerHome extends Activity {
      // Get ListView object from xml
         careeList = (ListView) findViewById(R.id.CareeList);
         
-        String[] values = new String[] { "Caree - Caree", 
-                "Caree - Wade",
+        String[] values = new String[] { "Ben | Last Check-In: 1 hour 5 minutes ago", 
+                "Tom | Last Check-In: 3 minutes ago",
                };
         
 
