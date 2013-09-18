@@ -9,8 +9,12 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class CarerHome extends Activity {
+	
+	ListView careeList ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,21 @@ public class CarerHome extends Activity {
         PushService.setDefaultPushCallback(this, CarerHome.class);
         ParseInstallation.getCurrentInstallation().saveInBackground();
         PushService.subscribe(this, "Carers", CarerHome.class);
+        
+     // Get ListView object from xml
+        careeList = (ListView) findViewById(R.id.CareeList);
+        
+        String[] values = new String[] { "Caree - Caree", 
+                "Caree - Wade",
+               };
+        
+
+       ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+       android.R.layout.simple_list_item_1, android.R.id.text1, values);
+
+        // Assign adapter to ListView
+       careeList.setAdapter(adapter); 
+
 	}
 	
     @Override
