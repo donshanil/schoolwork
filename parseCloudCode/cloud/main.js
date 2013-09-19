@@ -5,6 +5,53 @@ Parse.Cloud.define("hello", function(request, response) {
   response.success("Hello world!");
 });
 
+Parse.Cloud.define("get_check_in_list", function(request, response) {
+	//THIS FUNCTION gets the table of check ins
+	//it then finds when was the last check_in from each user
+	var query = new Parse.Query("Check_In");
+	var last_check_in = [];
+	query.find({
+		success: function(results) {
+		
+		for(var i = 0; i<results.length; i++)
+		{
+			var obj = {}
+			var d = new Date();
+			var name = results[i].get("Name");
+			var inlastcheckin = 0;
+			d=results[i].updatedAt;			
+			obj.time = d;
+			obj.name = name;
+			
+			for(var j = 0; j< last_check_in.length; j++){
+				//check through already active alarms for already existing entries
+				if (last_check_in[j].name == name)
+				{
+					inlastcheckin = 1;
+					if(d > last_check_in[j].time) //CONFIRM THAT DATE FORMATS ARE CORRECT PLEASE
+					{
+						//we found a newer check in the one already in the system!
+						last_check_in.splice(j, 1, obj);
+					
+					}
+				}
+			}
+			if(inlastcheckin == 0){
+				//if our alarm isn't already in the array, add it to the list
+					last_check_in.push(obj);
+			}
+		}
+		response.success(JSON.stringify(last_check_in));
+		
+	},
+	error: function(error) {
+		reponse.error("something went very terribly wrong");
+	}
+	
+})
+});
+
+
 
 Parse.Cloud.define("get_active_alarms", function(request, response) {
 	//THIS FUNCTION will return an object containing any activated alarms
