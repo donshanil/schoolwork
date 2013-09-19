@@ -29,6 +29,10 @@
 	        android:layout_marginLeft="30dip"
 	        android:layout_marginRight="30dip"
             android:text="Caree Harlan Wade has checked in/rung an alarm" />
+		
+		<ListView android:id="@+id/CareeList" 
+              android:layout_height="match_parent"
+              android:layout_width="match_parent"/>
 
 
     </LinearLayout>
