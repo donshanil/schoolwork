@@ -32,6 +32,12 @@ app.get('/hello', function(req, res) {
 //   res.send(req.body.message);
 // });
 
+ app.get('/login', function(req, res) {
+    // Renders the login form asking for username and password.
+    res.render('login.ejs');
+  });
+
+
  // Clicking submit on the login form triggers this.
   app.post('/login', function(req, res) {
     Parse.User.logIn(req.body.username, req.body.password).then(function() {
@@ -51,25 +57,22 @@ app.get('/hello', function(req, res) {
     res.redirect('/');
   });
 
-  // The homepage renders differently depending on whether user is logged in.
   app.get('/', function(req, res) {
     if (Parse.User.current()) {
       // No need to fetch the current user for querying Note objects.
-  //    var Note = Parse.Object.extend("Note");
-    //  var query = new Parse.Query(Note);
-      //query.find().then(function(results) {
+      var Note = Parse.Object.extend("Note");
+      var query = new Parse.Query(Note);
+      query.find().then(function(results) {
         // Render the notes that the current user is allowed to see.
-     // },
-	res.render('hello', { message: 'you are logged in' });
+      },
       function(error) {
         // Render error page.
       });
     } else {
       // Render a public welcome page, with a link to the '/login' endpoint.
-	  //res.redirect('/login');
-	  res.render('hello', { message: 'you are not logged in' });
     }
   });
+
 
   // You could have a "Profile" link on your website pointing to this.
   app.get('/profile', function(req, res) {
