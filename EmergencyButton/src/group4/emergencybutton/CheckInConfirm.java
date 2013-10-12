@@ -28,4 +28,5 @@ public class CheckInConfirm extends Activity {
 		onBackPressed();
 	}
 	
+	
 }
