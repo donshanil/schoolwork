@@ -46,7 +46,12 @@
             android:label="@string/title_activity_carer_home"
             android:screenOrientation="portrait" >
         </activity>
-
+        <activity
+            android:name="group4.emergencybutton.CheckInConfirm"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:label="@string/title_activity_check_in_confirm"
+            android:screenOrientation="portrait" >
+        </activity>
         <service android:name="com.parse.PushService" />
 
         <receiver android:name="com.parse.ParseBroadcastReceiver" >

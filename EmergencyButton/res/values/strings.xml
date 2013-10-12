@@ -11,8 +11,12 @@
     <string name="title_activity_caree_home">CareeHome</string>
     <string name="title_activity_carer_home">CarerHome</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_check_in_confirm">Checked In</string>
     <string name="prompt_user">Username Here</string>
     <string name="prompt_pass">Password Here</string>
     <string name="login">Login!</string>
+    <string name="check_in_confirm">You have checked in for today. Don\'t forget to check in tomorrow!</string>
+        <string name="back">Back</string>
+    
 
 </resources>

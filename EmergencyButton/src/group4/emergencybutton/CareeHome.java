@@ -78,6 +78,9 @@ public class CareeHome extends Activity {
         push.setMessage("Harlan Wade just checked in!");
         push.sendInBackground();
         
+        Intent intent = new Intent(this, CheckInConfirm.class);
+        startActivity(intent);
+        
     }
     
 }
