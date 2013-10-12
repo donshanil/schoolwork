@@ -20,15 +20,7 @@
             android:layout_height="wrap_content"
 	        android:layout_marginLeft="30dip"
 	        android:layout_marginRight="30dip"
-            android:text="You are logged in as - The Carer" />
-        
-		<TextView
-            android:id="@+id/CareeStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-	        android:layout_marginLeft="30dip"
-	        android:layout_marginRight="30dip"
-            android:text="Caree Harlan Wade has checked in/rung an alarm" />
+            android:text="You are logged in as - Jun" />
 		
 		<ListView android:id="@+id/CareeList" 
               android:layout_height="match_parent"
