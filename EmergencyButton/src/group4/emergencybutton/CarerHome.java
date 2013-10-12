@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class CarerHome extends Activity {
 	
@@ -28,6 +29,9 @@ public class CarerHome extends Activity {
         String usertype = currentUser.get("Type").toString();
         if ((currentUser != null) && (usertype.equals("Carer"))) {
           // do stuff with the user
+        	
+            TextView textView = (TextView) findViewById(R.id.loggedCarer);
+            textView.setText("You are logged in as - Carer "+currentUser.get("username").toString());
             
             // Save the current Installation to Parse.
             PushService.setDefaultPushCallback(this, CarerHome.class);
