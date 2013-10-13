@@ -33,10 +33,13 @@ public class CareeHome extends Activity {
         if ((currentUser != null) && (usertype.equals("Caree"))) {
           // do stuff with the user
         } else {
-          // show the signup or login screen
+          // show the Signup or login screen
 	    	Intent intent = new Intent(this, Login.class);
 	    	startActivity(intent);
         }
+        
+        TextView textView = (TextView) findViewById(R.id.loggedCaree);
+        textView.setText("You are logged in as - Caree "+currentUser.get("username").toString());
         
         PushService.setDefaultPushCallback(this, CareeHome.class);
         ParseInstallation.getCurrentInstallation().saveInBackground();

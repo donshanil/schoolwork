@@ -55,6 +55,7 @@ public class CarerHome extends Activity {
 				e1.printStackTrace();
 			}
 
+
 	        if (carerCarees != null) {
 	           	for (ParseObject object : carerCarees) {
 	               	for (Object username : (ArrayList) object.get("Carees")) {
