@@ -17,7 +17,8 @@
         android:allowBackup="true"
         android:icon="@drawable/emergency_button_icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme" 
+        android:name="group4.emergencybutton.DefaultApplication">
         <activity
             android:name="group4.emergencybutton.Login"
             android:configChanges="orientation|keyboardHidden|keyboard"

@@ -6,6 +6,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -17,8 +18,6 @@ public class Login extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		
-		Parse.initialize(this, "MVq1PZGssKpeTZAWjqvgljViUY1FE1WtyZiuVDTa", "TUfSe1TeyJNCQAtTrUXuM7Rpeyv25wvoRhun9LkR");
 	
 	}
 

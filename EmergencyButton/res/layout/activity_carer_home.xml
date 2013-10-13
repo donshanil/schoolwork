@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
 	        android:layout_marginLeft="30dip"
 	        android:layout_marginRight="30dip"
-            android:text="You are logged in as - Jun" />
+            android:text="" />
 		
 		<ListView android:id="@+id/CareeList" 
               android:layout_height="match_parent"
