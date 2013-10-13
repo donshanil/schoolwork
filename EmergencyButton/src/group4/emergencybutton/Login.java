@@ -10,7 +10,9 @@ import android.app.Application;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Login extends Activity {
 
@@ -34,6 +36,8 @@ public class Login extends Activity {
 	
 	public void logIn(View view){
 		
+		hideSoftKeyboard(Login.this);
+		
 		EditText etuser = (EditText) findViewById(R.id.edit_username);
 		EditText etpass = (EditText) findViewById(R.id.edit_password);
 
@@ -47,10 +51,15 @@ public class Login extends Activity {
 			    	ParseUser currentuser = ParseUser.getCurrentUser();
 			    	loggedIn(currentuser.get("Type").toString());
 			    } else {
-			      // Signup failed. Look at the ParseException to see what happened.
+			    	Toast.makeText(Login.this, "Login Failure!", Toast.LENGTH_LONG).show();
 			    }
 			  }
 			});
+	}
+	
+	public static void hideSoftKeyboard(Activity activity) {
+	    InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+	    inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
 	}
 	
     private void loggedIn(String type){
