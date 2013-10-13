@@ -4,6 +4,8 @@ import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Application;
@@ -19,8 +21,7 @@ public class Login extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
-	
+		setContentView(R.layout.activity_login);	
 	}
 
     @Override

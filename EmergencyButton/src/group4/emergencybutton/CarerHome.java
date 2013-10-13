@@ -49,32 +49,29 @@ public class CarerHome extends Activity {
 	        ArrayList<ParseObject> carees = new ArrayList<ParseObject>();
 	        ArrayList<String> values = new ArrayList<String>();
 	        
-	        ParseQuery<ParseObject> query = ParseQuery.getQuery("CarerCarees");
-	        query.whereEqualTo("Carer", currentUser.getUsername());
-	        List<ParseObject> carerCarees = null;
-			try {
-				carerCarees = query.find();
-			} catch (ParseException e1) {
-				e1.printStackTrace();
+	    	ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+	    	userQuery.whereEqualTo("carer", currentUser.get("username").toString());
+	    	
+	        try {
+	        	List<ParseUser> users = userQuery.find();
+	        	for (ParseObject caree1 : users) {
+	        		
+	        		ParseUser currentCaree = (ParseUser) caree1;
+	        			        		
+	        		usernames.add(currentCaree.get("username").toString());
+	        	}
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
-
-
-	        if (carerCarees != null) {
-	           	for (ParseObject object : carerCarees) {
-	               	for (Object username : (ArrayList) object.get("Carees")) {
-		        		usernames.add(username.toString());
-		        	}
-	           	}
-	        }
 	        
 	        if (usernames != null) {
 	            for (String username : usernames) {
 	            	//Get the user from parse, and get their last check-in, and put it into the values array.
-	            	ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
-	            	userQuery.whereEqualTo("username", username);
+	            	ParseQuery<ParseUser> userQuery1 = ParseUser.getQuery();
+	            	userQuery1.whereEqualTo("username", username);
 	                try {
 	                	//TODO: Below isn't working...
-	                	List<ParseUser> users = userQuery.find();
+	                	List<ParseUser> users = userQuery1.find();
 	                	for (ParseObject caree : users) {
 	                		carees.add(caree);
 	                	}

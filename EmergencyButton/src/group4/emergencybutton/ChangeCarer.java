@@ -7,14 +7,19 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ChangeCarer extends Activity {
 	
@@ -25,7 +30,7 @@ public class ChangeCarer extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_change_carer);
 		
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        final ParseUser currentUser = ParseUser.getCurrentUser();
         String usertype = currentUser.get("Type").toString();
         if ((currentUser != null) && (usertype.equals("Caree"))) {        	
           //
@@ -64,14 +69,17 @@ public class ChangeCarer extends Activity {
 
     	ArrayList<String> values = new ArrayList<String>();
     	
+    	String uname;
+    	
         try {
         	List<ParseUser> users = userQuery1.find();
         	for (ParseObject carer1 : users) {
         		
-        		ParseUser listCarer = (ParseUser) carer1;        		
-                firstName = listCarer.getString("firstName");
-            	lastName = listCarer.getString("lastName");
-            	values.add(firstName + " " + lastName);
+        		ParseUser listCarer = (ParseUser) carer1;
+        		uname = listCarer.getString("username");
+                //firstName = listCarer.getString("firstName");
+            	//lastName = listCarer.getString("lastName");
+            	values.add(uname);
             	
         	}
 		} catch (ParseException e) {
@@ -86,14 +94,32 @@ public class ChangeCarer extends Activity {
 		
 		 // Assign adapter to ListView
 		careeList.setAdapter(adapter); 
-        
+		
+		careeList.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				
+				final String newCarer = ((TextView) view).getText().toString();
+				
+				currentUser.put("carer", newCarer);
+				currentUser.saveInBackground(new SaveCallback() {
+					
+					@Override
+					public void done(ParseException e) {
+					    Toast.makeText(getApplicationContext(),
+								(newCarer + " set as current Carer."), Toast.LENGTH_SHORT).show();
+						
+					}
+				});
+			}
+		});
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.change_carer, menu);
-		return true;
+		return false;
 	}
 
 }
