@@ -1,6 +1,7 @@
 package group4.emergencybutton;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.parse.FindCallback;
@@ -90,7 +91,16 @@ public class CarerHome extends Activity {
 
 					try {
 						checkIn = getQuery.get(caree.getString("lastCheckInId"));
-			        	values.add(checkIn.getString("Name") + " | last Check-In: " + checkIn.getCreatedAt().toString());
+						Date currentDate = new Date();
+						
+						long millis = (currentDate.getTime() - checkIn.getCreatedAt().getTime());						
+						long second = (millis / 1000) % 60;
+						long minute = (millis / (1000 * 60)) % 60;
+						long hour = (millis / (1000 * 60 * 60)) % 24;
+						
+						String lastCheckIn = String.format("%02d hours, %02d minutes, %02d seconds ago", hour, minute, second);
+
+			        	values.add(checkIn.getString("Name") + " | last Check-In: " + lastCheckIn);
 					} catch (ParseException e1) {
 						e1.printStackTrace();
 					}
@@ -123,7 +133,7 @@ public class CarerHome extends Activity {
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.main, menu);
+        menuInflater.inflate(R.menu.carer_home, menu);
         return true;
     }
 	
