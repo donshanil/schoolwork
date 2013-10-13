@@ -18,6 +18,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -120,9 +122,26 @@ public class CarerHome extends Activity {
 
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	// No Menu
-        return false;
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main, menu);
+        return true;
     }
+	
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+         
+        switch (item.getItemId())
+        {
+        case R.id.log_out:
+            Intent intent1 = new Intent(this, Login.class);
+            startActivity(intent1);
+            return true;
+ 
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }    
     
 	@Override
 	public void onBackPressed() {

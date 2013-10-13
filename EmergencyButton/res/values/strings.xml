@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Emergency Button</string>
+
+    <string name="app_name">Emergency Button</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_handle_alert">Handle Alert</string>
@@ -16,7 +17,7 @@
     <string name="prompt_pass">Password Here</string>
     <string name="login">Login!</string>
     <string name="check_in_confirm">You have checked in for today. Don\'t forget to check in tomorrow!</string>
-        <string name="back">Back</string>
-    
+    <string name="back">Back</string>
+    <string name="title_activity_change_carer">ChangeCarer</string>
 
 </resources>
