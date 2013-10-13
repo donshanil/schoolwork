@@ -15,15 +15,17 @@
         android:orientation="vertical">
         
 		<EditText android:id="@+id/edit_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/prompt_user" />
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:maxLines="1"
+	        android:hint="@string/prompt_user" />
 	        
 		<EditText android:id="@+id/edit_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/prompt_pass"
-        android:inputType="textPassword" />
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:maxLines="1"
+	        android:hint="@string/prompt_pass"
+	        android:inputType="textPassword" />
         
 	    <Button
 	       	android:id="@+id/login_button"

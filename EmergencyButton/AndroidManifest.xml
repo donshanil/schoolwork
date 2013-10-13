@@ -54,6 +54,13 @@
             android:label="@string/title_activity_check_in_confirm"
             android:screenOrientation="portrait" >
         </activity>
+		<activity
+            android:name="group4.emergencybutton.ChangeCarer"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:label="@string/title_activity_change_carer"
+            android:screenOrientation="portrait" >
+            
+        </activity>
 
         <service android:name="com.parse.PushService" />
 
@@ -64,10 +71,7 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name="group4.emergencybutton.ChangeCarer"
-            android:label="@string/title_activity_change_carer" >
-        </activity>
+
     </application>
 
 </manifest>

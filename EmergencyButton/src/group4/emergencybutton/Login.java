@@ -51,7 +51,7 @@ public class Login extends Activity {
 			    	ParseUser currentuser = ParseUser.getCurrentUser();
 			    	loggedIn(currentuser.get("Type").toString());
 			    } else {
-			    	Toast.makeText(Login.this, "Login Failure!", Toast.LENGTH_LONG).show();
+			    	Toast.makeText(Login.this, "Login Failure! Please Try Again!", Toast.LENGTH_LONG).show();
 			    }
 			  }
 			});

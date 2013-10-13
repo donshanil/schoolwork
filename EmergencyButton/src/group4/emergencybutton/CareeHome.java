@@ -40,15 +40,12 @@ public class CareeHome extends Activity {
 	    	Intent intent = new Intent(this, Login.class);
 	    	startActivity(intent);
         }
-        
-        TextView textView = (TextView) findViewById(R.id.loggedCaree);
-        textView.setText("You are logged in as - Caree "+currentUser.get("username").toString());
-        
+                
         PushService.setDefaultPushCallback(this, CareeHome.class);
         ParseInstallation.getCurrentInstallation().saveInBackground();
         PushService.subscribe(this, "Carees", CareeHome.class);
         
-        final TextView textViewToChange = (TextView) findViewById(R.id.loggedCaree);
+        TextView textViewToChange = (TextView) findViewById(R.id.loggedCaree);
         textViewToChange.setText("You are logged in as - " + firstName + " " + lastName);
         
         //ParseAnalytics.trackAppOpened(getIntent()); // For Tracking
