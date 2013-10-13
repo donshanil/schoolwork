@@ -46,6 +46,8 @@
 	        android:onClick="checkIn"
 	        android:text="@string/check_in_button"
 	        android:textSize="35sp" />
+	    
+	    
 
     </LinearLayout>
 

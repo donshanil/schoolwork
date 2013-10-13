@@ -98,9 +98,10 @@ public class CarerHome extends Activity {
 						long minute = (millis / (1000 * 60)) % 60;
 						long hour = (millis / (1000 * 60 * 60)) % 24;
 						
-						String lastCheckIn = String.format("%02d hours, %02d minutes, %02d seconds ago", hour, minute, second);
+						String lastCheckIn = String.format("%02d hours, %02d minutes, %02d seconds ago" +
+								"", hour, minute, second);
 
-			        	values.add(checkIn.getString("Name") + " | last Check-In: " + lastCheckIn);
+			        	values.add("Name: " + checkIn.getString("Name") + "\nLast Check-In: " + lastCheckIn);
 					} catch (ParseException e1) {
 						e1.printStackTrace();
 					}

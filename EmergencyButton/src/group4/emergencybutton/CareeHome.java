@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -126,8 +127,11 @@ public class CareeHome extends Activity {
         push.setMessage(firstName + " " + lastName + " just checked in!");
         push.sendInBackground();
         
-        Intent intent = new Intent(this, CheckInConfirm.class);
-        startActivity(intent);
+        Toast.makeText(CareeHome.this, "You have checked-in! Don't forget to check in tomorrow!", Toast.LENGTH_LONG).show();
+
+        
+        //Intent intent = new Intent(this, CheckInConfirm.class);
+        //startActivity(intent);
         
     }
     
