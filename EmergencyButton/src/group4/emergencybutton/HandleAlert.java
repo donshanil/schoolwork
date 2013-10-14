@@ -50,7 +50,7 @@ public class HandleAlert extends Activity {
         
         // Notify Carers on Cancel
         ParsePush push = new ParsePush();
-        push.setChannel("Carers");
+        push.setChannel(currentUser.getString("username"));
         push.setMessage(currentUser.getString("firstName") + " " + currentUser.getString("lastName") + " has cancelled his/her alarm.");
         push.sendInBackground();
         

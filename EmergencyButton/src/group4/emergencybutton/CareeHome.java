@@ -20,6 +20,7 @@ import com.parse.PushService;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class CareeHome extends Activity {
@@ -43,7 +44,6 @@ public class CareeHome extends Activity {
                 
         PushService.setDefaultPushCallback(this, CareeHome.class);
         ParseInstallation.getCurrentInstallation().saveInBackground();
-        PushService.subscribe(this, "Carees", CareeHome.class);
         
         TextView textViewToChange = (TextView) findViewById(R.id.loggedCaree);
         textViewToChange.setText("You are logged in as - " + firstName + " " + lastName);
@@ -70,6 +70,13 @@ public class CareeHome extends Activity {
             return true;
  
         case R.id.log_out:
+        	
+        	Set<String> setOfAllSubscriptions = PushService.getSubscriptions(this);
+        	
+        	for (String sub : setOfAllSubscriptions) {
+        		PushService.unsubscribe(this, sub);
+    		}
+        	
             Intent intent1 = new Intent(this, Login.class);
             startActivity(intent1);
             return true;
@@ -97,7 +104,7 @@ public class CareeHome extends Activity {
         
         // Notify Carers on Alarm
         ParsePush push = new ParsePush();
-        push.setChannel("Carers");
+        push.setChannel(currentUser.getString("username"));
         push.setMessage(firstName + " " + lastName + " needs HELP!!!");
         push.sendInBackground();
         
@@ -120,7 +127,7 @@ public class CareeHome extends Activity {
         
         // Notify Carers on Check-In
         ParsePush push = new ParsePush();
-        push.setChannel("Carers");
+        push.setChannel(currentUser.getString("username"));
         push.setMessage(firstName + " " + lastName + " just checked in!");
         push.sendInBackground();
         
