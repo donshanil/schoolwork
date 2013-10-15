@@ -45,12 +45,13 @@ public class HandleAlert extends Activity {
 		ParseUser currentUser = ParseUser.getCurrentUser();
         ParseObject testObject = new ParseObject("Alarm");
         testObject.put("Name", currentUser.getString("firstName") + " " + currentUser.getString("lastName"));
+        testObject.put("username", currentUser.getString("username"));
         testObject.put("Activated", false);        
         testObject.saveInBackground();
         
         // Notify Carers on Cancel
         ParsePush push = new ParsePush();
-        push.setChannel("Carers");
+        push.setChannel(currentUser.getString("username"));
         push.setMessage(currentUser.getString("firstName") + " " + currentUser.getString("lastName") + " has cancelled his/her alarm.");
         push.sendInBackground();
         

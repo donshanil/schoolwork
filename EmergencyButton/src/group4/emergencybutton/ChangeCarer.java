@@ -110,6 +110,9 @@ public class ChangeCarer extends Activity {
 					public void done(ParseException e) {
 					    Toast.makeText(getApplicationContext(),
 								(newCarer + " set as current Carer."), Toast.LENGTH_SHORT).show();
+					    Intent intent = getIntent();
+					    finish();
+					    startActivity(intent);
 						
 					}
 				});

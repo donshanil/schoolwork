@@ -20,6 +20,7 @@ import com.parse.PushService;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class CareeHome extends Activity {
@@ -43,7 +44,6 @@ public class CareeHome extends Activity {
                 
         PushService.setDefaultPushCallback(this, CareeHome.class);
         ParseInstallation.getCurrentInstallation().saveInBackground();
-        PushService.subscribe(this, "Carees", CareeHome.class);
         
         TextView textViewToChange = (TextView) findViewById(R.id.loggedCaree);
         textViewToChange.setText("You are logged in as - " + firstName + " " + lastName);
@@ -70,6 +70,13 @@ public class CareeHome extends Activity {
             return true;
  
         case R.id.log_out:
+        	
+        	Set<String> setOfAllSubscriptions = PushService.getSubscriptions(this);
+        	
+        	for (String sub : setOfAllSubscriptions) {
+        		PushService.unsubscribe(this, sub);
+    		}
+        	
             Intent intent1 = new Intent(this, Login.class);
             startActivity(intent1);
             return true;
@@ -92,12 +99,13 @@ public class CareeHome extends Activity {
     	// Send Alarm to server
         ParseObject testObject = new ParseObject("Alarm");
         testObject.put("Name", firstName + " " + lastName);
+        testObject.put("username", currentUser.getString("username"));
         testObject.put("Activated", true);
         testObject.saveInBackground();
         
         // Notify Carers on Alarm
         ParsePush push = new ParsePush();
-        push.setChannel("Carers");
+        push.setChannel(currentUser.getString("username"));
         push.setMessage(firstName + " " + lastName + " needs HELP!!!");
         push.sendInBackground();
         
@@ -113,6 +121,7 @@ public class CareeHome extends Activity {
     	// Check In with database
     	ParseObject testObject = ParseObject.create("Check_In");
         testObject.put("Name", firstName + " " + lastName);
+        testObject.put("username", currentUser.getString("username"));
         testObject.save();
         testObject.fetch();
         currentUser.put("lastCheckInId", testObject.getObjectId());
@@ -120,7 +129,7 @@ public class CareeHome extends Activity {
         
         // Notify Carers on Check-In
         ParsePush push = new ParsePush();
-        push.setChannel("Carers");
+        push.setChannel(currentUser.getString("username"));
         push.setMessage(firstName + " " + lastName + " just checked in!");
         push.sendInBackground();
         
