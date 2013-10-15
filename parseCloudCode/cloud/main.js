@@ -1,3 +1,38 @@
+function timeDifference(current, previous) {
+
+    var msPerMinute = 60 * 1000;
+    var msPerHour = msPerMinute * 60;
+    var msPerDay = msPerHour * 24;
+    var msPerMonth = msPerDay * 30;
+    var msPerYear = msPerDay * 365;
+
+    var elapsed = current - previous;
+
+    if (elapsed < msPerMinute) {
+         return Math.round(elapsed/1000) + ' seconds ago';   
+    }
+
+    else if (elapsed < msPerHour) {
+         return Math.round(elapsed/msPerMinute) + ' minutes ago';   
+    }
+
+    else if (elapsed < msPerDay ) {
+         return Math.round(elapsed/msPerHour ) + ' hours ago';   
+    }
+
+    else if (elapsed < msPerMonth) {
+        return 'approximately ' + Math.round(elapsed/msPerDay) + ' days ago';   
+    }
+
+    else if (elapsed < msPerYear) {
+        return 'approximately ' + Math.round(elapsed/msPerMonth) + ' months ago';   
+    }
+
+    else {
+        return 'approximately ' + Math.round(elapsed/msPerYear ) + ' years ago';   
+    }
+}
+
 require('cloud/app.js');
 
 // Use Parse.Cloud.define to define as many cloud functions as you want.
@@ -18,6 +53,7 @@ Parse.Cloud.define("get_check_in_list", function(request, response) {
 		{
 			var obj = {}
 			var d = new Date();
+			var time_string = time;
 			var name = results[i].get("Name");
 			var inlastcheckin = 0;
 			d=results[i].updatedAt;			
@@ -52,7 +88,10 @@ Parse.Cloud.define("get_check_in_list", function(request, response) {
 })
 });
 
-
+Parse.Cloud.define("Logger", function(request, response) {
+  console.log(request.params);
+  response.success();
+});
 
 Parse.Cloud.define("get_active_alarms", function(request, response) {
 	//THIS FUNCTION will return an object containing any activated alarms
@@ -61,10 +100,13 @@ Parse.Cloud.define("get_active_alarms", function(request, response) {
 	var num = 0;
 	var last_alarms=[ ];
 	var active_alarms = [];
+	query.limit(1000);
+	query.descending("updatedAt"); //due to parse limits, pull 1000 most recent alarms
 	query.find({
 		success: function(results) {
 	//arr.push to add new things to array
 	//imo it would be far less expensive to maintain a separate table
+			//response.success(JSON.stringify(results));
 			for (var i = 0; i< results.length; i++){
 				//we need to take the most recent alarm for a user, and check if it is still active or not.
 				var obj = {}
@@ -74,6 +116,7 @@ Parse.Cloud.define("get_active_alarms", function(request, response) {
 				d=results[i].updatedAt;			
 				obj.time = d;
 				obj.name = name;
+				obj.objectid = results[i].id;
 				obj.activated = results[i].get("Activated");	
 				
 				for(var j = 0; j< last_alarms.length; j++){
@@ -95,15 +138,26 @@ Parse.Cloud.define("get_active_alarms", function(request, response) {
 				}
 			}
 			
+			//sort last alarms back to ascending order
+			last_alarms.sort(function(a,b){
+			  a = new Date(a.time);
+			  b = new Date(b.time);
+			  return a<b?-1:a>b?1:0;
+			});
+			
+			var date = new Date();
+			date.toISOString(); //"2011-12-19T15:28:46.493Z"
 			//now we must look through the last alarms to see if they are activated or not.
 			for (var i = 0; i< last_alarms.length; i++)
 			{
+				last_alarms[i].time = timeDifference(date ,last_alarms[i].time)
 				if (last_alarms[i].activated == false)
 				{
 					last_alarms.splice(i, 1); //delete the current value
 					i--; //decrement i by one to make up for that fact we've deleted a value. i will be incremented in the next iteration.
 				}
 			}
+			
 			
 			response.success(JSON.stringify(last_alarms));
 			//response.success(JSON.stringify(active_alarms));

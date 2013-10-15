@@ -1,13 +1,10 @@
 
-//		<%=# link_to(result[i].objectid, 'system/alert/'+result[i].objectid) %> </td>
 // These two lines are required to initialize Express in Cloud Code.
 var express = require('express');
 var parseExpressHttpsRedirect = require('parse-express-https-redirect');
 var parseExpressCookieSession = require('parse-express-cookie-session');
-//var helpers = require('ejs_production.js')
-//helpers(app);
+
 var app = express();
-//var helpers = require('express-helpers')(app);
 
 // Global app configuration section
 app.set('views', 'cloud/views');  // Specify the folder to find templates
@@ -45,9 +42,7 @@ app.get('/hello', function(req, res) {
  // Clicking submit on the login form triggers this.
   app.post('/login', function(req, res) {
     Parse.User.logIn(req.body.username, req.body.password).then(function() {
-      //check to see if user is operator.
-	  
-	  // Login succeeded, redirect to homepage.
+      // Login succeeded, redirect to homepage.
       // parseExpressCookieSession will automatically set cookie.
       res.redirect('/system');
     },
@@ -78,44 +73,28 @@ app.get('/hello', function(req, res) {
     } else {
       // Render a public welcome page, with a link to the '/login' endpoint.
 	 
-	  res.render('hello.ejs', { message: 'you must login to access more features' });
+	  res.render('hello', { message: 'you must login to access more features' });
     }
   });
   
  app.get('/system', function(req, res) {
+    if (Parse.User.current()) {
       // No need to fetch the current user for querying Note objects.
 	Parse.Cloud.run('get_active_alarms', {}, {
-	 success: function(result2) {
+	 success: function(result) {
         // Render the notes that the current user is allowed to see.
-		//result2 is an array of json objects.
-		var result = "";
-		var stringed = "";
-		console.log(result2)
-		//for (var i=0; i<result2.length; i++)
-		//{
-		//	console.log(result2.name);
-		//}
-		
-		//we want to convert the timestamps to 'relative' times.
-		result = String(result2);
-		//res.render('system.ejs', {result: String(result2),});
-		res.render('system.ejs', {message: result});
-		//res.render('hello.ejs', {message: result});
-		//res.render('hello.ejs', {message: result});
+		res.render('system', result);
       },
      error: function(error) {
         // Render error page.
-		res.render('hello.ejs', {message: 'ERROR'}) ;
 		
 	}	
       });
-
-  });
-  
-  app.get('/system/alert/:alarmID', function(req, res){
-	console.log(req.params.alarmID);
-	//we've got an alarmID, let's bring up the alert info along with the
-	res.redirect('/system');
+    } else {
+      // Render a public welcome page, with a link to the '/login' endpoint.
+	 
+	  res.render('system', { message: 'this is the system page. please login.' });
+    }
   });
 
 
@@ -135,11 +114,6 @@ app.get('/hello', function(req, res) {
       res.redirect('/login');
     }
   });
-  
-  function errorHandler(err, req, res, next) {
-  res.status(500);
-  res.render('error', { error: err });
-}
 
 // Attach the Express app to Cloud Code.
 app.listen();
