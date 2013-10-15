@@ -41,6 +41,12 @@ Parse.Cloud.define("hello", function(request, response) {
   response.success("Hello world!");
 });
 
+Prase.Cloud.define("get_user_from_alert", function(request, response){
+	//given an alertID, will retrieve user information and stringify
+	var alertID = request.params.alertID;
+	var userquery = new Parse.Query("Alarm");
+});
+
 Parse.Cloud.define("get_check_in_list", function(request, response) {
 	//THIS FUNCTION gets the table of check ins
 	//it then finds when was the last check_in from each user
