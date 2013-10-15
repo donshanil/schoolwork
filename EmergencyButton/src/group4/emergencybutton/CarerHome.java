@@ -3,6 +3,7 @@ package group4.emergencybutton;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -41,7 +42,6 @@ public class CarerHome extends Activity {
           // Save the current Installation to Parse.
           PushService.setDefaultPushCallback(this, CarerHome.class);
           ParseInstallation.getCurrentInstallation().saveInBackground();
-          PushService.subscribe(this, "Carers", CarerHome.class);
 	        
 	        //Get carees for current carer
 	               
@@ -58,6 +58,8 @@ public class CarerHome extends Activity {
 	        		
 	        		ParseUser currentCaree = (ParseUser) caree1;
 	        			        		
+	        		PushService.subscribe(this, currentCaree.get("username").toString(), CarerHome.class);
+	        		
 	        		usernames.add(currentCaree.get("username").toString());
 	        	}
 			} catch (ParseException e) {
@@ -142,6 +144,14 @@ public class CarerHome extends Activity {
         switch (item.getItemId())
         {
         case R.id.log_out:
+        	
+        	Set<String> setOfAllSubscriptions = PushService.getSubscriptions(this);
+        	
+        	for (String sub : setOfAllSubscriptions) {
+        		PushService.unsubscribe(this, sub);
+    		}
+    
+        	
             Intent intent1 = new Intent(this, Login.class);
             startActivity(intent1);
             return true;
