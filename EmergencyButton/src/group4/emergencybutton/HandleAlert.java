@@ -45,6 +45,7 @@ public class HandleAlert extends Activity {
 		ParseUser currentUser = ParseUser.getCurrentUser();
         ParseObject testObject = new ParseObject("Alarm");
         testObject.put("Name", currentUser.getString("firstName") + " " + currentUser.getString("lastName"));
+        testObject.put("username", currentUser.getString("username"));
         testObject.put("Activated", false);        
         testObject.saveInBackground();
         

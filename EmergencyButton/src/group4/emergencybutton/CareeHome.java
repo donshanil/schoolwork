@@ -99,6 +99,7 @@ public class CareeHome extends Activity {
     	// Send Alarm to server
         ParseObject testObject = new ParseObject("Alarm");
         testObject.put("Name", firstName + " " + lastName);
+        testObject.put("username", currentUser.getString("username"));
         testObject.put("Activated", true);
         testObject.saveInBackground();
         
@@ -120,6 +121,7 @@ public class CareeHome extends Activity {
     	// Check In with database
     	ParseObject testObject = ParseObject.create("Check_In");
         testObject.put("Name", firstName + " " + lastName);
+        testObject.put("username", currentUser.getString("username"));
         testObject.save();
         testObject.fetch();
         currentUser.put("lastCheckInId", testObject.getObjectId());
