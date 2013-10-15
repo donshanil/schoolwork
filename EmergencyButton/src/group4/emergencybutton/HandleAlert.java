@@ -18,8 +18,6 @@ public class HandleAlert extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_handle_alert);
 		
-		Parse.initialize(this, "MVq1PZGssKpeTZAWjqvgljViUY1FE1WtyZiuVDTa", "TUfSe1TeyJNCQAtTrUXuM7Rpeyv25wvoRhun9LkR");
-		
         ParseUser currentUser = ParseUser.getCurrentUser();
         String usertype = currentUser.get("Type").toString();
         if ((currentUser != null) && (usertype.equals("Caree"))) {
@@ -44,15 +42,16 @@ public class HandleAlert extends Activity {
 	// Cancel Alert and Bring user back to home
 	public void cancelAlert(View view){
 		// Tell Server to Cancel Alarm
+		ParseUser currentUser = ParseUser.getCurrentUser();
         ParseObject testObject = new ParseObject("Alarm");
-        testObject.put("Name", "Harlan Wade");
+        testObject.put("Name", currentUser.getString("firstName") + " " + currentUser.getString("lastName"));
         testObject.put("Activated", false);        
         testObject.saveInBackground();
         
         // Notify Carers on Cancel
         ParsePush push = new ParsePush();
         push.setChannel("Carers");
-        push.setMessage("Harlan Wade has cancelled his/her alarm.");
+        push.setMessage(currentUser.getString("firstName") + " " + currentUser.getString("lastName") + " has cancelled his/her alarm.");
         push.sendInBackground();
         
 		Intent intent = new Intent(this, CareeHome.class);
