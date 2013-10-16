@@ -9,7 +9,7 @@ result = json.loads(connection.getresponse().read())
 print result '''
 
 
-import json,httplib
+'''import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
 connection.request('POST', '/1/functions/get_active_alarms', json.dumps({
@@ -19,7 +19,7 @@ connection.request('POST', '/1/functions/get_active_alarms', json.dumps({
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
-print result
+print result '''
 
 # import json,httplib
 # connection = httplib.HTTPSConnection('api.parse.com', 443)
@@ -32,3 +32,16 @@ print result
 #      })
 # result = json.loads(connection.getresponse().read())
 # print result
+
+import json,httplib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection.connect()
+connection.request('POST', '/1/functions/get_user_from_alert', json.dumps({
+     "alertID": "HjHE1bsEzN"
+     }), {
+       "X-Parse-Application-Id": "MVq1PZGssKpeTZAWjqvgljViUY1FE1WtyZiuVDTa",
+       "X-Parse-REST-API-Key": "jSnTsnBTx89Bz68dJlRy8EAFRYwpdaeNgigjGZZQ",
+       "Content-Type": "application/json"
+     })
+result = json.loads(connection.getresponse().read())
+print result

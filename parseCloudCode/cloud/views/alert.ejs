@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<% function timeDifference(current, previous) {
+
+    var msPerMinute = 60 * 1000;
+    var msPerHour = msPerMinute * 60;
+    var msPerDay = msPerHour * 24;
+    var msPerMonth = msPerDay * 30;
+    var msPerYear = msPerDay * 365;
+
+    var elapsed = current - previous;
+
+    if (elapsed < msPerMinute) {
+         return Math.round(elapsed/1000) + ' seconds ago';   
+    }
+
+    else if (elapsed < msPerHour) {
+         return Math.round(elapsed/msPerMinute) + ' minutes ago';   
+    }
+
+    else if (elapsed < msPerDay ) {
+         return Math.round(elapsed/msPerHour ) + ' hours ago';   
+    }
+
+    else if (elapsed < msPerMonth) {
+        return 'approximately ' + Math.round(elapsed/msPerDay) + ' days ago';   
+    }
+
+    else if (elapsed < msPerYear) {
+        return 'approximately ' + Math.round(elapsed/msPerMonth) + ' months ago';   
+    }
+
+    else {
+        return 'approximately ' + Math.round(elapsed/msPerYear ) + ' years ago';   
+    }
+}	%>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	 <link rel='stylesheet' href='/css/style.css' />
+    <title>Active Alarm!</title>
+  </head>
+  <body>
+	<% var date = new Date() %>
+	<%	date.toISOString()%>
+	
+    <div class="page_title">ALERT INFORMATION</div>
+	<p><%= message %></p>
+    <p>
+	<% var result = JSON.parse (message) %>
+	<%= result[0].alarm.Name %>
+	<p><%= url %></p>
+	
+	<table class="list">
+	<tr><td class="attr_title">Name</td><td> <%= result[1].user.firstName %> <%= result[1].user.lastName %> </td></tr>
+	<tr><td class="attr_title">Email</td><td><%= result[1].user.email %></td></tr>
+	<tr><td class="attr_title">Phone Number</td><td><%= result[1].user.phonenumber %></td></tr>
+	<tr><td class="attr_title">Alert Status</td><td><%= result[0].alarm.Activated %></td></tr>
+	
+	<tr><td class="attr_title">Alarm triggered</td><td><%= result[0].alarm.createdAt%></td></tr>
+	</table>
+	<% url += "/dismiss" %>
+	</p>
+	<a href = <%- url %>>DISMISS ALARM</a>
+	<a href ='/css/style.css'>css file</a>
+	<a href ="/logout"> Login here</a>
+	<a href ="/system"><--- back to active alarms</a>
+  </body>
+</html>

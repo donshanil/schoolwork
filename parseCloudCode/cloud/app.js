@@ -65,16 +65,9 @@ app.get('/hello', function(req, res) {
 
   app.get('/', function(req, res) {
     if (Parse.User.current()) {
-      // No need to fetch the current user for querying Note objects.
-      var Note = Parse.Object.extend("Note");
-      var query = new Parse.Query(Note);
-      query.find().then(function(results) 
-	  {
-        // Render the notes that the current user is allowed to see.
-      },
-      function(error) {
-        // Render error page.
-      });
+      // user is logged in.
+		res.redirect('/system');
+
     } else {
       // Render a public welcome page, with a link to the '/login' endpoint.
 	 
@@ -90,7 +83,7 @@ app.get('/hello', function(req, res) {
 		//result2 is an array of json objects.
 		var result = "";
 		var stringed = "";
-		console.log(result2)
+		//console.log(result2)
 		//for (var i=0; i<result2.length; i++)
 		//{
 		//	console.log(result2.name);
@@ -113,10 +106,38 @@ app.get('/hello', function(req, res) {
   });
   
   app.get('/system/alert/:alarmID', function(req, res){
-	console.log(req.params.alarmID);
-	//we've got an alarmID, let's bring up the alert info along with the
-	res.redirect('/system');
-  });
+	Parse.Cloud.run('get_user_from_alert', {alertID: req.params.alarmID}, {
+	success:function(result2) {
+		//console.log(req.params.alarmID);
+		//console.log(result);
+		//we've got an alarmID, let's bring up the user info along with it
+		var thisurl = "/system/alert/"+req.params.alarmID;
+		var result = "";
+		result = String(result2);
+		res.render('alert.ejs', {message: result2, url:thisurl});
+	},
+	
+	error: function(error){
+	
+	}
+  }	);
+ }); 
+ 
+  app.get('/system/alert/:alarmID/dismiss', function(req, res){
+	Parse.Cloud.run('dismiss_alarm', {alertID: req.params.alarmID}, {
+	success:function(result2) {
+		//console.log(req.params.alarmID);
+		//console.log(result);
+		//we've got an alarmID, let's bring up the user info along with it
+		res.redirect('/system');
+	},
+	
+	error: function(error){
+	
+	}
+  }	);
+ }); 
+ 
 
 
   // You could have a "Profile" link on your website pointing to this.
