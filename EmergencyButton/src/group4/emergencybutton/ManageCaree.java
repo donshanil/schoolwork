@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.PushService;
@@ -16,7 +17,10 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ManageCaree extends Activity {
 
@@ -35,6 +39,7 @@ public class ManageCaree extends Activity {
 		
 		String time = "";
 		String status = "Needs Help";
+		String status1 = "Alarm";
 		Boolean activated = false;
 		
 		try {
@@ -66,7 +71,7 @@ public class ManageCaree extends Activity {
 				ParseObject check = checkQuery.getFirst();
 				
 				Date currentDate = new Date();
-				
+			
 				long millis = (currentDate.getTime() - check.getCreatedAt().getTime());						
 				long second = (millis / 1000) % 60;
 				long minute = (millis / (1000 * 60)) % 60;
@@ -80,14 +85,23 @@ public class ManageCaree extends Activity {
 			}
 			
 			status = "Checked-In";
+			status1 = "Check In";
 		}
 		
-
+        Button button = (Button) findViewById(R.id.acknowledge_button);
+        button.setText("Respond to " + status1);
 		
         final TextView textViewToChange = (TextView) findViewById(R.id.currentCaree);
         textViewToChange.setText(caree + "'s Status:" + caree + " " + status + " " + time);
 		
 	}
+	
+    public void acknowledge(View view) throws ParseException{
+    	
+        
+        Toast.makeText(ManageCaree.this, "Acknowledged!", Toast.LENGTH_LONG).show();
+        
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
