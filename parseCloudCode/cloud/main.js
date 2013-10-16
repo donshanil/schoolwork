@@ -126,6 +126,32 @@ Parse.Cloud.define("Logger", function(request, response) {
   response.success();
 });
 
+Parse.Cloud.define("dismiss_alarm", function(request, response) {
+  //given an alarmID, will set its activated state to false.
+	var alertID = request.params.alertID;
+	var alarmquery = new Parse.Query("Alarm");
+	alarmquery.get(alertID, {
+	success: function (alarm_object)
+	{
+		alarm_object.set("Activated", false);
+		alarm_object.save(null,
+		{
+			success: function()
+			{
+				response.success("yayifications!");
+			},
+			error:function (error)
+			{
+				response.error("error!");
+			}
+		});		
+	},
+	error: function (error)
+	{
+	
+	}});
+});
+
 Parse.Cloud.define("get_active_alarms", function(request, response) {
 	//THIS FUNCTION will return an object containing any activated alarms
 	//ie. the last message was not a cancel

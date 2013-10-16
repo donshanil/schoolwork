@@ -131,15 +131,12 @@ app.get('/hello', function(req, res) {
  }); 
  
   app.get('/system/alert/:alarmID/dismiss', function(req, res){
-	Parse.Cloud.run('get_user_from_alert', {alertID: req.params.alarmID}, {
+	Parse.Cloud.run('dismiss_alarm', {alertID: req.params.alarmID}, {
 	success:function(result2) {
 		//console.log(req.params.alarmID);
 		//console.log(result);
 		//we've got an alarmID, let's bring up the user info along with it
-		var thisurl = "/system/alert/"+req.params.alarmID;
-		var result = "";
-		result = String(result2);
-		res.render('alert.ejs', {message: result2, url:thisurl});
+		res.redirect('/system');
 	},
 	
 	error: function(error){
