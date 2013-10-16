@@ -65,16 +65,9 @@ app.get('/hello', function(req, res) {
 
   app.get('/', function(req, res) {
     if (Parse.User.current()) {
-      // No need to fetch the current user for querying Note objects.
-      var Note = Parse.Object.extend("Note");
-      var query = new Parse.Query(Note);
-      query.find().then(function(results) 
-	  {
-        // Render the notes that the current user is allowed to see.
-      },
-      function(error) {
-        // Render error page.
-      });
+      // user is logged in.
+		res.redirect('/system');
+
     } else {
       // Render a public welcome page, with a link to the '/login' endpoint.
 	 
