@@ -22,8 +22,7 @@ public class ManageCareeTest extends
 		activity = this.getActivity();
 	}
 	
-	public void testContents() {
-		//Check if the help text is the correct string resource, and check if the button exists.
+	public void testCareeResources() {
 		TextView currentCareeText = (TextView) activity.findViewById(R.id.currentCaree);
 		assertNotNull(currentCareeText);
 		Button acknowledgeButton = (Button) activity.findViewById(R.id.acknowledge_button);
