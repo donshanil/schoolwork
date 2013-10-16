@@ -35,3 +35,5 @@ Instructions to run Unit Testing
 # Re-Created Branch For Testing
 
 Testflight URL: http://tflig.ht/169sFZF
+Bitbucket URL: https://bitbucket.org/bairrd/swen30007-group-4
+Trello URL: https://trello.com/b/YXqjUuhl/swen30007-group-4
