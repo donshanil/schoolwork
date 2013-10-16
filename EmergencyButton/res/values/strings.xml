@@ -20,5 +20,6 @@
     <string name="back">Back</string>
     <string name="title_activity_change_carer">ChangeCarer</string>
     <string name="title_activity_manage_caree">ManageCaree</string>
+    <string name="change_carer_text">Tap on name to change carer.</string>
 
 </resources>
