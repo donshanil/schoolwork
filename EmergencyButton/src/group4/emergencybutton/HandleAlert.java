@@ -48,6 +48,7 @@ public class HandleAlert extends Activity {
         testObject.put("username", currentUser.getString("username"));
         testObject.put("Activated", false);
         testObject.put("acknowledged", false);
+        testObject.put("Type", "user activated");
         testObject.saveInBackground();
         
         // Notify Carers on Cancel
