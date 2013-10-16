@@ -1,7 +1,13 @@
 package group4.emergencybutton;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.PushService;
 
 import android.os.Bundle;
@@ -22,8 +28,64 @@ public class ManageCaree extends Activity {
 		Intent intent = getIntent();
 		String caree = intent.getStringExtra("caree_username");
 		
+		ParseQuery<ParseObject> alarmQuery = ParseQuery.getQuery("Alarm");
+		
+		alarmQuery.whereEqualTo("username", caree);
+		alarmQuery.orderByDescending("createdAt");
+		
+		String time = "";
+		String status = "Needs Help";
+		Boolean activated = false;
+		
+		try {
+			ParseObject alarm = alarmQuery.getFirst();
+			
+			activated = alarm.getBoolean("Activated");
+			
+			Date currentDate = new Date();
+			
+			long millis = (currentDate.getTime() - alarm.getCreatedAt().getTime());						
+			long second = (millis / 1000) % 60;
+			long minute = (millis / (1000 * 60)) % 60;
+			long hour = (millis / (1000 * 60 * 60)) % 24;
+			
+			time = String.format("%02d hours, %02d minutes, %02d seconds ago" +
+					"", hour, minute, second);
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if (!(activated)){
+			ParseQuery<ParseObject> checkQuery = ParseQuery.getQuery("Check_In");
+			checkQuery.whereEqualTo("username",caree);
+			checkQuery.orderByDescending("createdAt");
+			
+			try {
+				ParseObject check = checkQuery.getFirst();
+				
+				Date currentDate = new Date();
+				
+				long millis = (currentDate.getTime() - check.getCreatedAt().getTime());						
+				long second = (millis / 1000) % 60;
+				long minute = (millis / (1000 * 60)) % 60;
+				long hour = (millis / (1000 * 60 * 60)) % 24;
+				
+				time = String.format("%02d hours, %02d minutes, %02d seconds ago" +
+						"", hour, minute, second);
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+			status = "Checked-In";
+		}
+		
+
+		
         final TextView textViewToChange = (TextView) findViewById(R.id.currentCaree);
-        textViewToChange.setText("Caree - " + caree);
+        textViewToChange.setText(caree + "'s Status:" + caree + " " + status + " " + time);
 		
 	}
 
