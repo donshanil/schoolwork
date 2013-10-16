@@ -98,7 +98,7 @@ public class ManageCaree extends Activity {
         button.setText("Respond to " + status1);
 		
         final TextView textViewToChange = (TextView) findViewById(R.id.currentCaree);
-        textViewToChange.setText(caree + "'s Status:" + caree + " " + status + " " + time);
+        textViewToChange.setText(caree + "'s Status: " + caree + " - " + status + " " + time);
         
 		
 	}
