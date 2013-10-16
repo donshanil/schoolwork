@@ -22,9 +22,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CarerHome extends Activity {
 	
@@ -44,9 +48,9 @@ public class CarerHome extends Activity {
           ParseInstallation.getCurrentInstallation().saveInBackground();
 	        
 	        //Get carees for current carer
-	               
+	        
 	        ArrayList<String> usernames = new ArrayList<String>();
-	        ArrayList<ParseObject> carees = new ArrayList<ParseObject>();
+	        final ArrayList<ParseObject> carees = new ArrayList<ParseObject>();
 	        ArrayList<String> values = new ArrayList<String>();
 	        
 	    	ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
@@ -114,7 +118,22 @@ public class CarerHome extends Activity {
            android.R.layout.simple_list_item_1, android.R.id.text1, values);
 
             // Assign adapter to ListView
-           careeList.setAdapter(adapter); 
+           careeList.setAdapter(adapter);
+           
+           careeList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				final String careeuser = carees.get(position).getString("username");
+	            Intent intent = new Intent(CarerHome.this, ManageCaree.class);
+	            intent.putExtra("caree_username",careeuser);
+	            startActivity(intent);
+				
+			}
+			
+           });
+           
            
            String firstName = currentUser.getString("firstName");
        	   String lastName = currentUser.getString("lastName");
