@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ManageCaree extends Activity {
+	
+	ParseObject caree_obj;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,8 @@ public class ManageCaree extends Activity {
 		
 		try {
 			ParseObject alarm = alarmQuery.getFirst();
+			
+			caree_obj = alarm;
 			
 			activated = alarm.getBoolean("Activated");
 			
@@ -70,6 +74,8 @@ public class ManageCaree extends Activity {
 			try {
 				ParseObject check = checkQuery.getFirst();
 				
+				caree_obj = check;
+				
 				Date currentDate = new Date();
 			
 				long millis = (currentDate.getTime() - check.getCreatedAt().getTime());						
@@ -93,13 +99,23 @@ public class ManageCaree extends Activity {
 		
         final TextView textViewToChange = (TextView) findViewById(R.id.currentCaree);
         textViewToChange.setText(caree + "'s Status:" + caree + " " + status + " " + time);
+        
 		
 	}
 	
     public void acknowledge(View view) throws ParseException{
     	
+    	caree_obj.put("acknowledged", true);
+    	caree_obj.save();
+    	Boolean ack = caree_obj.getBoolean("acknowledged");
+    	
+    	String ackstr = "False";
+    	
+    	if (ack){
+    		ackstr = "True";
+    	}
         
-        Toast.makeText(ManageCaree.this, "Acknowledged!", Toast.LENGTH_LONG).show();
+        Toast.makeText(ManageCaree.this, ackstr + " Acknowledged!", Toast.LENGTH_LONG).show();
         
     }
 
