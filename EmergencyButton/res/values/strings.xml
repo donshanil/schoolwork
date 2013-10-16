@@ -19,5 +19,6 @@
     <string name="check_in_confirm">You have checked in for today. Don\'t forget to check in tomorrow!</string>
     <string name="back">Back</string>
     <string name="title_activity_change_carer">ChangeCarer</string>
+    <string name="title_activity_manage_caree">ManageCaree</string>
 
 </resources>
