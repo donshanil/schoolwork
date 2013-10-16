@@ -100,7 +100,7 @@ Parse.Cloud.job("check_last_check_in_time", function(request, status) {
 							obj.set("Name", firstName + " " + lastName);
 							obj.set("username", user.get("username"));
 							obj.set("Activated", true);
-							obj.set("Type", "No response from patient");
+							obj.set("Type", 'Unresponsive');
 							obj.save(null,
 							{
 								success: function(obj)
@@ -299,7 +299,8 @@ Parse.Cloud.define("get_active_alarms", function(request, response) {
 				obj.name = name;
 				obj.username = username;
 				obj.objectid = results[i].id;
-				obj.activated = results[i].get("Activated");	
+				obj.activated = results[i].get("Activated");
+				obj.type = results[i].get("Type");
 				
 				for(var j = 0; j< last_alarms.length; j++){
 					//check through already active alarms for already existing entries

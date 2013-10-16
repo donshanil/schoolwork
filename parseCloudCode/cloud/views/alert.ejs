@@ -57,12 +57,14 @@
 	<tr><td class="attr_title">Alert Status</td><td><%= result[0].alarm.Activated %></td></tr>
 	
 	<tr><td class="attr_title">Alarm triggered</td><td><%= result[0].alarm.createdAt%></td></tr>
+	<tr><td class="attr_title">Alarm Type</td><td><%= result[0].alarm.Type%></td></tr>
+	
 	</table>
 	<% url += "/dismiss" %>
 	</p>
 	<a href = <%- url %>>DISMISS ALARM</a>
 	<a href ='/css/style.css'>css file</a>
-	<a href ="/logout"> Login here</a>
+	<a href ="/logout"> Logout</a></br>
 	<a href ="/system"><--- back to active alarms</a>
   </body>
 </html>
