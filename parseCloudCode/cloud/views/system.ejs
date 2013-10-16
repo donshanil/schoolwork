@@ -3,24 +3,25 @@
 <html>
   <head>
     <script type="text/javascript" src="ejs_production.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	 <link rel='stylesheet' href='/css/style.css' />
     <title>Group4 - Operator Interface</title>
   </head>
   <body>
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-  <link rel='stylesheet' href='/css/style.css' />
+
     <h1>Emergency button Operator System</h1>
 	<p><%= message %></p>
     <p>
 	<% var result = JSON.parse(message) %>
 	
-	<table>
+	<table class="list">
 	<% for(var i=0; i<result.length; i++) {%>
 		<tr>
-		<td class="messageblock">
+		<td class="attr_title">
 		<%= result[i].name %>
 		</td>
 		<td><%=result[i].time%></td>
-		<td><% var html = "<a href ='system/alert/"+result[i].objectid+"'>"+result[i].objectid+"</a>" %>
+		<td><% var html = "<a href ='system/alert/"+result[i].objectid+"'>"+result[i].objectid+" --> GO</a>" %>
 		<%- html %></td>
 
 		

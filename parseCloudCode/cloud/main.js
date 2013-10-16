@@ -44,12 +44,28 @@ Parse.Cloud.define("hello", function(request, response) {
 Parse.Cloud.define("get_user_from_alert", function(request, response){
 	//given an alertID, will retrieve user information and stringify
 	var alertID = request.params.alertID;
-	var userquery = new Parse.Query("Alarm");
-	userquery.get(alertID, {
+	var alarmquery = new Parse.Query("Alarm");
+	var userquery = new Parse.Query("User");
+	alarmquery.get(alertID, {
 	success: function (alarm_object)	{
 		//using this object, we get the username
-		response.success(JSON.stringify(alarm_object));
-	},
+		var a_username = alarm_object.get("username");
+		//console.log(a_username);
+		userquery.equalTo("username", a_username);
+		userquery.find({
+			success: function(user_object) {
+				var json_objects = new Array();
+				json_objects = [{"alarm": alarm_object}, {"user": user_object[0]}];
+				//console.log(json_objects);
+				response.success(JSON.stringify(json_objects));
+		},
+		error: function(error)
+		{
+		
+		}
+		})
+		
+	},	
 	error: function(error)
 	{
 	
