@@ -41,10 +41,21 @@ Parse.Cloud.define("hello", function(request, response) {
   response.success("Hello world!");
 });
 
-Prase.Cloud.define("get_user_from_alert", function(request, response){
+Parse.Cloud.define("get_user_from_alert", function(request, response){
 	//given an alertID, will retrieve user information and stringify
 	var alertID = request.params.alertID;
 	var userquery = new Parse.Query("Alarm");
+	userquery.get(alertID, {
+	success: function (alarm_object)	{
+		//using this object, we get the username
+		response.success(JSON.stringify(alarm_object));
+	},
+	error: function(error)
+	{
+	
+	}
+	
+	})
 });
 
 Parse.Cloud.define("get_check_in_list", function(request, response) {
