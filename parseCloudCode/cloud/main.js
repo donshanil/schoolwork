@@ -95,11 +95,12 @@ Parse.Cloud.job("check_last_check_in_time", function(request, status) {
 							var lastName = user.get("lastName");
 							
 							// Send Alarm to server
-							var Stuff = Parse.Object.extend("Alarm")
+							var Stuff = Parse.Object.extend("Alarm");
 							var obj = new Stuff();
 							obj.set("Name", firstName + " " + lastName);
 							obj.set("username", user.get("username"));
 							obj.set("Activated", true);
+							obj.set("Type", "No response from patient");
 							obj.save(null,
 							{
 								success: function(obj)
@@ -111,8 +112,8 @@ Parse.Cloud.job("check_last_check_in_time", function(request, status) {
 									data: {
 										alert: firstName + " " + lastName + " needs HELP bro!!!"
 									}
-							},{
-								success: function() {
+							}, {
+								success: function(test) {
 									// Push was successful
 									console.log("push_successful!");
 								},
@@ -346,7 +347,7 @@ Parse.Cloud.define("get_active_alarms", function(request, response) {
 	},
 	error: function(error) {
 	
-		reponse.error("something went very terribly wrong");
+		response.error("something went very terribly wrong");
 	}
 	
 })
