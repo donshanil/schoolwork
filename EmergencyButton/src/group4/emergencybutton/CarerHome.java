@@ -182,7 +182,9 @@ public class CarerHome extends Activity {
     
 	@Override
 	public void onBackPressed() {
-		// Don't Support "Back"
+	    Intent intent = getIntent();
+	    finish();
+	    startActivity(intent);
 	}    
 
 }

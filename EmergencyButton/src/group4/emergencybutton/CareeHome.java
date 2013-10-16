@@ -15,10 +15,12 @@ import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.PushService;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -48,8 +50,50 @@ public class CareeHome extends Activity {
         TextView textViewToChange = (TextView) findViewById(R.id.loggedCaree);
         textViewToChange.setText("You are logged in as - " + firstName + " " + lastName);
         
+        String crestr = "Not yet checked-in";
+        String ackstr = "Not yet acknowledged";
+		ParseQuery<ParseObject> checkQuery = ParseQuery.getQuery("Check_In");
+		checkQuery.whereEqualTo("username", currentUser.getUsername());
+		checkQuery.orderByDescending("createdAt");
+		
+		try {
+			ParseObject check = checkQuery.getFirst();
+			
+			Date currentDate = new Date();
+			
+			long millis = (currentDate.getTime() - check.getCreatedAt().getTime());						
+			long second = (millis / 1000) % 60;
+			long minute = (millis / (1000 * 60)) % 60;
+			long hour = (millis / (1000 * 60 * 60)) % 24;
+			
+			String cretime = String.format("%02d hours, %02d minutes, %02d seconds ago" +
+					"", hour, minute, second);
+			
+			crestr = "Last Check-In: " + cretime;
+			
+			if (check.getBoolean("acknowledged")){
+				
+				currentDate = new Date();
+				
+				millis = (currentDate.getTime() - check.getUpdatedAt().getTime());						
+				second = (millis / 1000) % 60;
+				minute = (millis / (1000 * 60)) % 60;
+				hour = (millis / (1000 * 60 * 60)) % 24;
+				
+				String acktime = String.format("%02d hours, %02d minutes, %02d seconds ago" +
+						"", hour, minute, second);
+				
+				ackstr = "Acknowledged: " + acktime;
+			}
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+        TextView check_in_create = (TextView) findViewById(R.id.check_in_create);
+        check_in_create.setText(crestr);
         TextView check_in_acknowledge = (TextView) findViewById(R.id.check_in_acknowledge);
-        check_in_acknowledge.setText("Check In Acknowledged!");
+        check_in_acknowledge.setText(ackstr);
         
         //ParseAnalytics.trackAppOpened(getIntent()); // For Tracking
     }
@@ -91,7 +135,9 @@ public class CareeHome extends Activity {
     
 	@Override
 	public void onBackPressed() {
-		// Don't Support "Back"
+	    Intent intent = getIntent();
+	    finish();
+	    startActivity(intent);
 	}    
 	
     public void initiateAlert(View view){
@@ -139,10 +185,10 @@ public class CareeHome extends Activity {
         push.sendInBackground();
         
         Toast.makeText(CareeHome.this, "You have checked-in! Don't forget to check in tomorrow!", Toast.LENGTH_LONG).show();
-
         
-        //Intent intent = new Intent(this, CheckInConfirm.class);
-        //startActivity(intent);
+	    Intent intent = getIntent();
+	    finish();
+	    startActivity(intent);
         
     }
     
