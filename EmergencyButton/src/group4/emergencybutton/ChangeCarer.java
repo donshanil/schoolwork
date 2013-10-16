@@ -2,17 +2,21 @@ package group4.emergencybutton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.PushService;
 import com.parse.SaveCallback;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -122,7 +126,33 @@ public class ChangeCarer extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		return false;
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.change_carer, menu);
+        return true;
 	}
+	
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+         
+        switch (item.getItemId())
+        {
+        case R.id.log_out:
+        	
+        	Set<String> setOfAllSubscriptions = PushService.getSubscriptions(this);
+        	
+        	for (String sub : setOfAllSubscriptions) {
+        		PushService.unsubscribe(this, sub);
+    		}
+    
+        	
+            Intent intent1 = new Intent(this, Login.class);
+            startActivity(intent1);
+            return true;
+ 
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }    
 
 }

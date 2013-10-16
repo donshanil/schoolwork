@@ -46,7 +46,8 @@ public class HandleAlert extends Activity {
         ParseObject testObject = new ParseObject("Alarm");
         testObject.put("Name", currentUser.getString("firstName") + " " + currentUser.getString("lastName"));
         testObject.put("username", currentUser.getString("username"));
-        testObject.put("Activated", false);        
+        testObject.put("Activated", false);
+        testObject.put("acknowledged", false);
         testObject.saveInBackground();
         
         // Notify Carers on Cancel
