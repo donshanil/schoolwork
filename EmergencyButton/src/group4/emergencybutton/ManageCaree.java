@@ -42,6 +42,7 @@ public class ManageCaree extends Activity {
 		String time = "";
 		String status = "Needs Help";
 		String status1 = "Alarm";
+		String ack_status = "Not Yet Acknowledged";
 		Boolean activated = false;
 		
 		try {
@@ -60,6 +61,11 @@ public class ManageCaree extends Activity {
 			
 			time = String.format("%02d hours, %02d minutes, %02d seconds ago" +
 					"", hour, minute, second);
+			
+			Boolean is_ack = caree_obj.getBoolean("acknowledged");
+			if (is_ack){
+				ack_status = "Acknowledged";
+			}
 			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -86,6 +92,12 @@ public class ManageCaree extends Activity {
 				time = String.format("%02d hours, %02d minutes, %02d seconds ago" +
 						"", hour, minute, second);
 				
+				Boolean is_ack = caree_obj.getBoolean("acknowledged");
+				if (is_ack){
+					ack_status = "Acknowledged";
+				}
+				
+				
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -94,11 +106,16 @@ public class ManageCaree extends Activity {
 			status1 = "Check In";
 		}
 		
+
+		
         Button button = (Button) findViewById(R.id.acknowledge_button);
         button.setText("Respond to " + status1);
 		
         final TextView textViewToChange = (TextView) findViewById(R.id.currentCaree);
         textViewToChange.setText(caree + "'s Status: " + caree + " - " + status + " " + time);
+        
+        final TextView is_acknowledged = (TextView) findViewById(R.id.is_acknowledged);
+        is_acknowledged.setText(ack_status);
         
 		
 	}
@@ -115,8 +132,11 @@ public class ManageCaree extends Activity {
     		ackstr = "True";
     	}
     	
+        Toast.makeText(ManageCaree.this, "Acknowledged!", Toast.LENGTH_LONG).show();
         
-        Toast.makeText(ManageCaree.this, ackstr + " Acknowledged!", Toast.LENGTH_LONG).show();
+	    Intent intent = getIntent();
+	    finish();
+	    startActivity(intent);
         
     }
 
