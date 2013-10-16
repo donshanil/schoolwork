@@ -114,6 +114,7 @@ public class ManageCaree extends Activity {
     	if (ack){
     		ackstr = "True";
     	}
+    	
         
         Toast.makeText(ManageCaree.this, ackstr + " Acknowledged!", Toast.LENGTH_LONG).show();
         

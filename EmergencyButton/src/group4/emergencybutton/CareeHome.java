@@ -48,6 +48,9 @@ public class CareeHome extends Activity {
         TextView textViewToChange = (TextView) findViewById(R.id.loggedCaree);
         textViewToChange.setText("You are logged in as - " + firstName + " " + lastName);
         
+        TextView check_in_acknowledge = (TextView) findViewById(R.id.check_in_acknowledge);
+        check_in_acknowledge.setText("Check In Acknowledged!");
+        
         //ParseAnalytics.trackAppOpened(getIntent()); // For Tracking
     }
 
