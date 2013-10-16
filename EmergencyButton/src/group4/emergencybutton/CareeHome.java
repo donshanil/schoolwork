@@ -173,6 +173,7 @@ public class CareeHome extends Activity {
         testObject.put("Name", firstName + " " + lastName);
         testObject.put("username", currentUser.getString("username"));
         testObject.put("acknowledged", false);
+        testObject.put("Type", "user activated");
         testObject.save();
         testObject.fetch();
         currentUser.put("lastCheckInId", testObject.getObjectId());
