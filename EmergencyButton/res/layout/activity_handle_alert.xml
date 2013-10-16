@@ -19,6 +19,8 @@
 	        android:layout_height="wrap_content"
 	        android:layout_marginLeft="30dip"
 	        android:layout_marginRight="30dip"
+	        android:layout_marginBottom="20dip"
+	        android:textSize="20sp"
 	        android:text="@string/handle_alert" />
 	    
 		<Button 
