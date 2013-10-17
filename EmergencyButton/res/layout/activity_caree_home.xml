@@ -34,7 +34,7 @@
             android:background="@drawable/roundbtn"
             android:onClick="initiateAlert"
             android:text="@string/emergency_button"
-            android:textSize="70sp" />
+            android:textSize="65sp" />
 
 	    <Button
 	        android:id="@+id/check_in_button"
@@ -46,7 +46,7 @@
 	        android:background="@drawable/roundbtngreen"
 	        android:onClick="checkIn"
 	        android:text="@string/check_in_button"
-	        android:textSize="35sp" />
+	        android:textSize="30sp" />
 	    
 	    <TextView
             android:id="@+id/check_in_create"
@@ -54,8 +54,8 @@
             android:layout_height="wrap_content"
 	        android:layout_marginLeft="30dip"
 	        android:layout_marginRight="30dip"
-	        android:layout_marginBottom="30dip"
-	        android:textSize="20sp"
+	        android:layout_marginBottom="10dip"
+	        android:textSize="15sp"
             android:text="" />
 	    
 		<TextView
@@ -64,8 +64,7 @@
             android:layout_height="wrap_content"
 	        android:layout_marginLeft="30dip"
 	        android:layout_marginRight="30dip"
-	        android:layout_marginBottom="30dip"
-	        android:textSize="20sp"
+	        android:textSize="15sp"
             android:text="" />
 	    
 
