@@ -37,21 +37,38 @@ require('cloud/app.js');
 
 Parse.Cloud.define("send_push", function(request, response) {
 	//Parse.Cloud.useMasterKey();
-	Parse.Push.send({
-	  channels: [ "Ben", "Tom" ],
-	  data: {
-		alert: "The Giants won against the Mets 2-3."
-	  }
-	}, {
-	  success: function() {
-		// Push was successful
-		console.log("push it");
-	  },
-	  error: function(error) {
-		// Handle error
-	  }
+	Parse.Cloud.run('get_active_alarms', {}, {
+		success: function(result2) {
+			result = JSON.parse(result2);
+			for(i=0; i<result.length; i++)
+			{
+				console.log(result[i].username);
+				var channel = result[i].username;
+				var alert_string = "";
+				alert_string += channel;
+				alert_string += " still needs help!";
+				Parse.Push.send({
+					channels: [ channel ],
+					 data: {
+						alert: alert_string
+					}
+					}, {
+					 success: function() {
+					// Push was successful
+						console.log("push it");
+					},
+					error: function(error) {
+						// Handle error
+					}
+				});
+			}
+		},
+		error: function(error)
+		{
+			console.error("mofo");
+		}
 	});
-	response.success("jobs done");
+	response.success("job's done");
 });	
 
 
