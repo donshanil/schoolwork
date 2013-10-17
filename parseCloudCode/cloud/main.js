@@ -61,15 +61,25 @@ Parse.Cloud.job("check_last_check_in_time", function(request, status) {
 	var checkinquery;
 	userquery.equalTo("Type", "Caree");
 	var timeout = 60;
+	var obj_list = [];
 	//var timeout = 60*60*24//in seconds - seconds, minutes, hours - 24 hours
-	userquery.each(function(user) {
-		//iterate through every user
-		console.log(user)
-		checkinquery = new Parse.Query("Check_In");
-		var checkinID = user.get("lastCheckInId");
-		//console.log(user);
+	
+	Parse.Cloud.run('get_active_alarms', {}, {
+	success: function(result2) {
 		
-		checkinquery.get(checkinID, {
+		//i have no fucking idea why this is necessary but it doesn't work otherwise
+		var result3 = ""			
+		result3 = String(result2);
+		var result = JSON.parse(result3);
+
+		userquery.each(function(user) 
+		{
+		//iterate through every user
+			console.log(user);
+			checkinquery = new Parse.Query("Check_In");
+			var checkinID = user.get("lastCheckInId");
+			//console.log(user);		
+			checkinquery.get(checkinID, {
 			success: function(checkin_object) 
 			{
 				console.log(checkinID);
@@ -84,101 +94,103 @@ Parse.Cloud.job("check_last_check_in_time", function(request, status) {
 				{
 					console.log("diff too large!");
 					//aka, this person is over the check in timer. grab the list of active alarms to see if they're in there or not.
-					Parse.Cloud.run('get_active_alarms', {}, {
-					success: function(result2) {
-						//console.log(result2);
-						
-						//i have no fucking idea why this is necessary but it doesn't work otherwise
-						var result3 = ""			
-						result3 = String(result2);
-						var result = JSON.parse(result3);
-						var found = -1;
-						//console.log(result);
-						
-						for(var i=0; i<result.length; i++)
-						{
-							if(result[i].username == user.get("username"))
-							{
-								//console.log(result[i].username);
-								//console.log(user.get("username"));
-								//ie we already have an activated alarm
-								found = i;
-								console.log('activated alarm found already');
-								break;
-							}
-						}
-						
-						if(found == -1)
-						{
-							//add new alarm object
-							console.log('must add alarm!');
-						    
-							var firstName = user.get("firstName");
-							var lastName = user.get("lastName");
-							
-							// Send Alarm to server
-							//var Stuff = Parse.Object.extend("Alarm");
-							var obj = new Parse.Object("Alarm");
-							obj.set("Name", firstName + " " + lastName);
-							obj.set("username", user.get("username"));
-							obj.set("Activated", true);
-							obj.set("Type", 'Unresponsive');
-							obj.set("acknowledged", false);
-							var alert_string = "";
-							alert_string += firstName;
-							alert_string += " ";
-							alert_string += lastName;
-							alert_string += " has not checked in recently! ";
-							Parse.Push.send({
-								channels: [ user.get("username") ],
-								 data: {
-									alert: alert_string
-								 }
-								}, {
-								 success: function() {
-								// Push was successful
-								console.log("push it");
-								},
-								error: function(error) {
-									// Handle error
-								}
-							})
-							obj.save(null,
-							{
-								success: function(obj)
-								{						
-									console.log("okay");
-								},
-									
-								error:function (obj, error)
-								{
-									console.error("error!");
-								}
-							});
-							console.log(obj);
-								
-							// Notify Carers on Alarm
-							delete obj;
-
-							
-						}
-					},
-					error: function(error){
+					//console.log(result2);
+					var found = -1;
+					//console.log(result);
 					
+					for(var i=0; i<result.length; i++)
+					{
+						if(result[i].username == user.get("username"))
+						{
+							//console.log(result[i].username);
+							//console.log(user.get("username"));
+							//ie we already have an activated alarm
+							found = i;
+							console.log('activated alarm found already');
+							break;
+						}
 					}
-					});
+					
+					if(found == -1)
+					{
+						//add new alarm object
+						console.log('must add alarm!');
+						
+						var firstName = user.get("firstName");
+						var lastName = user.get("lastName");
+						
+						// Send Alarm to server
+						//var Stuff = Parse.Object.extend("Alarm");
+						var obj = new Parse.Object("Alarm");
+						obj.set("Name", firstName + " " + lastName);
+						obj.set("username", user.get("username"));
+						obj.set("Activated", true);
+						obj.set("Type", 'Unresponsive');
+						obj.set("acknowledged", false);
+						var alert_string = "";
+						alert_string += firstName;
+						alert_string += " ";
+						alert_string += lastName;
+						alert_string += " has not checked in recently! ";
+						Parse.Push.send({
+							channels: [ user.get("username") ],
+							 data: {
+								alert: alert_string
+							}
+							}, {
+							 success: function() {
+							// Push was successful
+								console.log("push it");
+							},
+							error: function(error) {
+								// Handle error
+							}
+						});
+						obj.save(null,
+						{
+							success: function(obj)
+							{						
+								console.log("okay");
+							},
+								
+							error:function (obj, error)
+							{
+								console.error("error!");
+							}
+						});
+						//console.log("PUSHING TO OBJ LIST");
+						//obj_list.push(obj);
+						//console.log("ADDED!");
+							
+						// Notify Carers on Alarm
+						//delete obj;					
+					}
 
 				}
 			},	
 			error: function(error)
 			{
 				status.error("ERROR");
-			}
+			}});
 		});
 		
 		
-	});
+	},
+	error: function(error)
+	{
+		status.error("ERROR");
+	}});
+	console.log(obj_list);
 	//status.success("yayifications!");	
+	// Parse.Object.saveAll(obj_list , {
+    // success: function(list) {
+    //  All the objects were saved.
+	 // status.success("yayifications!");
+    // },
+    // error: function(error) {
+     // An error occurred while saving one of the objects.
+    // },
+  // });
 	
 });
 	

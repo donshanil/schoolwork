@@ -77,6 +77,7 @@ app.get('/hello', function(req, res) {
   
  app.get('/system', function(req, res) {
       // No need to fetch the current user for querying Note objects.
+	if (Parse.User.current()) {
 	Parse.Cloud.run('get_active_alarms', {}, {
 	 success: function(result2) {
         // Render the notes that the current user is allowed to see.
@@ -102,6 +103,9 @@ app.get('/hello', function(req, res) {
 		
 	}	
       });
+	} else {
+		res.redirect('/');
+	}	
 
   });
   
