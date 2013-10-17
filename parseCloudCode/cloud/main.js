@@ -35,6 +35,26 @@ function timeDifference(current, previous) {
 
 require('cloud/app.js');
 
+Parse.Cloud.define("send_push", function(request, response) {
+	//Parse.Cloud.useMasterKey();
+	Parse.Push.send({
+	  channels: [ "Ben", "Tom" ],
+	  data: {
+		alert: "The Giants won against the Mets 2-3."
+	  }
+	}, {
+	  success: function() {
+		// Push was successful
+		console.log("push it");
+	  },
+	  error: function(error) {
+		// Handle error
+	  }
+	});
+	response.success("jobs done");
+});	
+
+
 Parse.Cloud.job("check_last_check_in_time", function(request, status) {
 	Parse.Cloud.useMasterKey();
 	var userquery = new Parse.Query("User");
@@ -44,6 +64,7 @@ Parse.Cloud.job("check_last_check_in_time", function(request, status) {
 	//var timeout = 60*60*24//in seconds - seconds, minutes, hours - 24 hours
 	userquery.each(function(user) {
 		//iterate through every user
+		console.log(user)
 		checkinquery = new Parse.Query("Check_In");
 		var checkinID = user.get("lastCheckInId");
 		//console.log(user);
@@ -57,10 +78,11 @@ Parse.Cloud.job("check_last_check_in_time", function(request, status) {
 				time_sent = checkin_object.updatedAt;
 				var diff = Math.abs(new Date() - time_sent);
 				diff = diff/1000; //time in seconds since last check in
-				console.log(diff)
+				console.log(diff);
 				
-				if(diff>timeout)
+				if(diff>=timeout)
 				{
+					console.log("diff too large!");
 					//aka, this person is over the check in timer. grab the list of active alarms to see if they're in there or not.
 					Parse.Cloud.run('get_active_alarms', {}, {
 					success: function(result2) {
@@ -77,8 +99,8 @@ Parse.Cloud.job("check_last_check_in_time", function(request, status) {
 						{
 							if(result[i].username == user.get("username"))
 							{
-								console.log(result[i].username);
-								console.log(user.get("username"));
+								//console.log(result[i].username);
+								//console.log(user.get("username"));
 								//ie we already have an activated alarm
 								found = i;
 								console.log('activated alarm found already');
@@ -95,43 +117,48 @@ Parse.Cloud.job("check_last_check_in_time", function(request, status) {
 							var lastName = user.get("lastName");
 							
 							// Send Alarm to server
-							var Stuff = Parse.Object.extend("Alarm");
-							var obj = new Stuff();
+							//var Stuff = Parse.Object.extend("Alarm");
+							var obj = new Parse.Object("Alarm");
 							obj.set("Name", firstName + " " + lastName);
 							obj.set("username", user.get("username"));
 							obj.set("Activated", true);
 							obj.set("Type", 'Unresponsive');
+							obj.set("acknowledged", false);
+							var alert_string = "";
+							alert_string += firstName;
+							alert_string += " ";
+							alert_string += lastName;
+							alert_string += " has not checked in recently! ";
+							Parse.Push.send({
+								channels: [ user.get("username") ],
+								 data: {
+									alert: alert_string
+								 }
+								}, {
+								 success: function() {
+								// Push was successful
+								console.log("push it");
+								},
+								error: function(error) {
+									// Handle error
+								}
+							})
 							obj.save(null,
 							{
 								success: function(obj)
-								{
-									response.success("yayifications!");
-									
-									Parse.Push.send({
-									channels: [user.get("username")],
-									data: {
-										alert: firstName + " " + lastName + " needs HELP bro!!!"
-									}
-							}, {
-								success: function(test) {
-									// Push was successful
-									console.log("push_successful!");
+								{						
+									console.log("okay");
 								},
-							    error: function(error) {
-									// Handle error
-									console.error(error);
-								}
-							});
 									
-								},
 								error:function (obj, error)
 								{
-									response.error("error!");
+									console.error("error!");
 								}
 							});
 							console.log(obj);
 								
 							// Notify Carers on Alarm
+							delete obj;
 
 							
 						}
@@ -140,7 +167,7 @@ Parse.Cloud.job("check_last_check_in_time", function(request, status) {
 					
 					}
 					});
-				//calculate time elapsed since checkin
+
 				}
 			},	
 			error: function(error)
@@ -150,7 +177,8 @@ Parse.Cloud.job("check_last_check_in_time", function(request, status) {
 		});
 		
 		
-	})
+	});
+	//status.success("yayifications!");	
 	
 });
 	
