@@ -9,4 +9,6 @@ Use the details:
 login: Operator
 pass: Operator
 
+the operator interface will allow you to check on the status of current alerts, and dismiss them.
+
 Thanks!
