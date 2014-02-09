@@ -1,0 +1,6 @@
+please ensure you add the flag -lm for the math library during compilation
+as some of our code relies on some functions provided by it.
+
+alternately, use our makefile :)
+
+header files have NOT been edited.
