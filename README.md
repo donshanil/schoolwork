@@ -8,4 +8,5 @@ Enclosed within this repository is a number of coding projects I completed as pa
 
 Some code may not be functional
 
+**COMP20006** - Coded in C
 **COMP30017** - Coded in C
