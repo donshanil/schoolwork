@@ -1,0 +1,28 @@
+#  Write your review in this file. Then do 'svn commit'.
+
+Compiles with three warnings. Two in line 9 regarding the pointers, and one in
+line 24 regarding the scanf int format. This warnings do not affect the
+operation of the program though.
+
+Only completed Part A and B. Program prints expected output for both parts
+based on the examples.
+
+Good consistent indentation.
+
+commenting sufficient, though not layman friendly
+
+Error checking for less than 31 inputs i.e. registers and no instructions -
+good.
+
+Could have defined the bit shifted instruction in the for loop, instead of
+always needing to 'instr[i] >> 26'. 
+
+For branch, could have used <=, >= and had two less lines. This is trivial
+however.
+
+You've used a qsort function here, though it was recommended that there was a
+better way.
+
+Good, stuck to a max line size of 80 char
+
+overall impressed, clean and consistent. 

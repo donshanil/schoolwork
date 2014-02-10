@@ -1,0 +1,52 @@
+[0x00400000]	0x8fa40000  lw $4, 0($29)                   ; 175: lw $a0 0($sp# argc
+[0x00400004]	0x27a50004  addiu $5, $29, 4                ; 176: addiu $a1 $sp 4		# argv
+[0x00400008]	0x24a60004  addiu $6, $5, 4                 ; 177: addiu $a2 $a1 4		# envp
+[0x0040000c]	0x00041080  sll $2, $4, 2                   ; 178: sll $v0 $a0 2
+[0x00400010]	0x00c23021  addu $6, $6, $2                 ; 179: addu $a2 $a2 $v0
+[0x00400014]	0x0c10000f  jal 0x0040003c [main]           ; 180: jal main
+[0x00400018]	0x00000000  nop                             ; 181: nop
+[0x0040001c]	0x3402000a  ori $2, $0, 10                  ; 183: li $v0 10
+[0x00400020]	0x0000000c  syscall                         ; 184: syscall			# syscall 10 (exit)
+
+beta:
+[0x00400024]	0x34020012  ori $2, $0, 18                  ; 2: li $v0, 18
+[0x00400028]	0x0000000c  syscall                         ; 3: syscall
+[0x0040002c]	0x34020012  ori $2, $0, 18                  ; 4: li $v0, 18
+[0x00400030]	0x00028021  addu $16, $0, $2                ; 5: move $s0, $v0
+[0x00400034]	0x22100002  addi $16, $16, 2                ; 6: addi $s0, $s0, 2
+[0x00400038]	0x0000000c  syscall                         ; 7: syscall
+
+main:
+[0x0040003c]	0x34020001  ori $2, $0, 1                   ; 9: li $v0, 1
+[0x00400040]	0x08100014  j 0x00400050 [label1]           ; 10: j label1
+
+label2:
+[0x00400044]	0x34020012  ori $2, $0, 18                  ; 12: li $v0, 18
+[0x00400048]	0x0000000c  syscall                         ; 13: syscall
+[0x0040004c]	0x08100019  j 0x00400064 [label3]           ; 14: j label3
+
+label1:
+[0x00400050]	0x34040002  ori $4, $0, 2                   ; 16: li $a0, 2
+[0x00400054]	0x0000000c  syscall                         ; 17: syscall
+[0x00400058]	0x08100011  j 0x00400044 [label2]           ; 18: j label2
+
+label5:
+[0x0040005c]	0x34020012  ori $2, $0, 18                  ; 19: li $v0, 18
+[0x00400060]	0x0810001e  j 0x00400078 [label6]           ; 26: j label6
+
+label3:
+[0x00400064]	0x0000000c  syscall                         ; 23: syscall
+[0x00400068]	0x34020001  ori $2, $0, 1                   ; 24: li $v0, 1
+[0x0040006c]	0x34040002  ori $4, $0, 2                   ; 25: li $a0, 2
+[0x00400070]	0x0810001e  j 0x00400078 [label6]           ; 26: j label6
+
+label7:
+[0x00400074]	0x03e00008  jr $31                          ; 28: jr $ra
+
+label6:
+[0x00400078]	0x0000000c  syscall                         ; 30: syscall
+[0x0040007c]	0x10800002  beq $4, $0, 8 [label8-0x0040007c]; 31: beq $a0, $zero, label8
+[0x00400080]	0x34020012  ori $2, $0, 18                  ; 32: li $v0, 18
+[0x00400084]	0x0000000c  syscall                         ; 34: syscall
+[0x00400088]	0x0810001d  j 0x00400074 [label7]           ; 35: j label7
+
