@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/users/bkchong/!svn/ver/18/oosd/Project2/lib/natives
+END
+jinput-raw.dll
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/users/bkchong/!svn/ver/18/oosd/Project2/lib/natives/jinput-raw.dll
+END
+jinput-raw_64.dll
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/users/bkchong/!svn/ver/18/oosd/Project2/lib/natives/jinput-raw_64.dll
+END
+lwjgl64.dll
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/users/bkchong/!svn/ver/18/oosd/Project2/lib/natives/lwjgl64.dll
+END
+OpenAL64.dll
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/users/bkchong/!svn/ver/18/oosd/Project2/lib/natives/OpenAL64.dll
+END
+OpenAL32.dll
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/users/bkchong/!svn/ver/18/oosd/Project2/lib/natives/OpenAL32.dll
+END
+lwjgl.dll
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/users/bkchong/!svn/ver/18/oosd/Project2/lib/natives/lwjgl.dll
+END
+jinput-dx8_64.dll
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/users/bkchong/!svn/ver/18/oosd/Project2/lib/natives/jinput-dx8_64.dll
+END
+jinput-dx8.dll
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/users/bkchong/!svn/ver/18/oosd/Project2/lib/natives/jinput-dx8.dll
+END
