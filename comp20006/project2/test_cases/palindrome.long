@@ -1,0 +1,62 @@
+	.data
+	.globl str
+str:	.asciiz	"abccbd"
+
+	.text
+	.globl	main
+main:
+	li	$s0, 0		# len = 1
+	la	$s1, str	# s = str
+	.globl test
+test:
+	lb	$s2, 0($s1)	# c = *s
+	beqz	$s2, done	# if c = '\0', branch to "done"
+	addi	$s0, $s0, 1	# len = len + 1
+	addi	$s1, $s1, 1	# s = s + 1
+	j	test
+
+	.globl done
+done:
+
+# $s0: len
+# $s2: limit
+# $s3: str
+# $s4: i
+# $s5: sum of differences
+
+	sub	$s0, $s0, 1	# len = len - 1
+				# first character is at offset 0, not 1
+	sra	$s2, $s0, 1	# limit = len / 2
+	la	$s3, str	# s = str
+	li	$s4, 0		# i = 0
+	li	$s5, 0		# sum = 0
+
+	.globl test2
+test2:
+	sgt	$t0, $s4, $s2	# is i > limit?
+	bgtz	$t0, done2	# if yes, goto done2
+
+	add	$t1, $s3, $s4	# load s[i]
+	lb	$t3, 0($t1)
+
+	add	$t2, $s3, $s0	# load s[len - i]
+	sub	$t2, $t2, $s4
+	lb	$t4, 0($t2)
+
+	sne	$t5, $t3, $t4	# compute difference
+	add	$s5, $s5, $t5
+
+	addi	$s4, $s4, 1	# i = i + 1
+	j	test2
+
+	.globl done2
+done2:
+	li	$v0, 1		# print_int
+	move	$a0, $s5
+	syscall
+
+	li	$v0, 11		# print_char
+	li	$a0, 10
+	syscall
+
+	jr	$ra

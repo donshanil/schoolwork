@@ -1,0 +1,166 @@
+#!/bin/sh
+# vim: ts=4 sw=4 et
+
+proj2=/home/subjects/comp20006/local/project2
+genexp=${proj2}/genexp_comp20006_11s2_2
+testdir=${proj2}/test_cases
+
+usage='usage: runtests [blockoption] [sizeoption] [formoption] [limitoption] [-v] [-h]
+    The blockoption controls the block sizes of the simulated caches.
+    You may give "-b 8" as the blockoption to specify a block size of 8 bytes.
+    Similarly, "-b 16", "-b 32", ... "-b 1024" specify block sizes of 16,
+    32, ... 1024 bytes. If you give "-b most", runtests will repeat all
+    the tests with several block sizes; if you give "-b all", runtests
+    will repeat all the tests with all the power-of-2 block sizes from 8
+    to 1024.
+
+    The sizeoption controls the number of blocks in the simulated caches.
+    You may give e.g. "-n 128" to specify that the simulated cache should have
+    128 blocks. The default is 64 blocks.
+
+    The formoption controls the cache organization. The default is a direct
+    mapped cache. You may give the "-f" option to specify a fully associative
+    cache with FIFO, the "-l" option to specify a fully associative
+    cache with LRU. If you give the "-a" option, runtests will repeat all
+    the tests with all three forms of cache organization.
+
+    The limitoption puts an upper bound on the sizes of the input trace files
+    runtests will use. If you give "-s 1000", you allow runtests to use
+    trace files up to 1000 lines in size. The default is 200. The largest test
+    cases have 50000 lines.
+
+    If you specify the "-v" option, you are asking both your cache program
+    and the expected output generator to be executed with verbose output.
+    This can help you track down problems, but can generate large output files.
+
+    You can specify the -h option to get this help message.
+
+    All the test output files are stored in the directory TEST_OUTPUT.
+    You may wish to delete its contents if you need the disk space.'
+
+block_sizes="8"
+num_blocks="64"
+forms="dm"
+size_limit="200"
+verbose=""
+
+while getopts b:n:flas:vh option
+do
+    case "$option" in
+    b)  if test "${OPTARG}" = "all"
+        then
+            block_sizes="8 16 32 64 128 256 512 1024"
+        elif test "${OPTARG}" = "most"
+        then
+            block_sizes="8 16 64 1024"
+        else
+            block_sizes="${OPTARG}"
+        fi
+        ;;
+
+    n)  num_blocks="${OPTARG}"
+        ;;
+
+    f)  forms="fa_fifo"
+        ;;
+    l)  forms="fa_lru"
+        ;;
+    a)  forms="dm fa_fifo fa_lru"
+        ;;
+
+    s)  size_limit="${OPTARG}"
+        ;;
+
+    v)  verbose="-v"
+        ;;
+
+    h)  echo "${usage}"
+        exit 0
+        ;;
+
+    \?) echo "${usage}"
+        exit 1
+        ;;
+    esac
+done
+
+shift `expr ${OPTIND} - 1`
+if test "$#" -gt 0
+then
+    echo "${usage}"
+fi
+
+failed=""
+failed_diffs=""
+todelete=""
+success_count="0"
+failure_count="0"
+
+mkdir -p TEST_OUTPUT
+for bs in ${block_sizes}
+do
+    for fm in ${forms}
+    do
+        case ${fm} in
+            dm)
+                fm_option=""
+                ;;
+            fa_fifo)
+                fm_option="-f"
+                ;;
+            fa_lru)
+                fm_option="-l"
+                ;;
+            *)
+                echo "unrecognized form"
+                exit 1
+                ;;
+        esac
+
+        for trace in ${testdir}/*.trace
+        do
+            num_trace_lines=`wc -l < ${trace}`
+            if test ${num_trace_lines} -le ${size_limit}
+            then
+                namebase=`basename ${trace} .trace`
+                nameinp="${testdir}/${namebase}.trace"
+                nameout="TEST_OUTPUT/${namebase}.out"
+                nameexp="TEST_OUTPUT/${namebase}.exp"
+                namediff="TEST_OUTPUT/${namebase}.diff"
+
+                args="-b ${bs} -n ${num_blocks} ${fm_option} ${verbose}"
+                echo "testing $args on $namebase"
+                ./cache   $args < ${nameinp} > ${nameout}
+                ${genexp} $args < ${nameinp} > ${nameexp}
+
+                diff -u ${nameexp} ${nameout} > ${namediff}
+                if test $? != 0
+                then
+                    failure_count=`expr ${failure_count} + 1`
+                    failed="${failed} ${namebase}"
+                    failed_diffs="${failed_diffs} ${namediff}"
+                else
+                    success_count=`expr ${success_count} + 1`
+                    todelete="${todelete} ${nameout} ${nameexp} ${namediff}"
+                fi
+            fi
+        done
+    done
+done
+
+/bin/rm -f ${todelete}
+
+if test "${failed}" = ""
+then
+    echo "All ${success_count} tests succeeded."
+    exit 0
+else
+    echo "${success_count} tests succeeded, ${failure_count} failed." > .diff
+    echo "The failures were the following tests:" >> .diff
+    echo "${failed}" >> .diff
+    echo "Their diffs follow; press ":n" to go to the next file." >> .diff
+    less .diff ${failed_diffs}
+    exit 1
+fi
+
+exit 0

@@ -1,0 +1,130 @@
+540928 - COMP30017 - Project 1 - Scheduling - Ben Chong - 5156 characters
+
+Let us look at the theoretical ramifications of each scheduling method.
+
+--First Come First Served--
+
+This can perform ok if every job takes the same amount of time. However, it
+discriminates against short jobs, because if a very long job is ahead of the
+short job in queue, this results in a very poor response time for short
+jobs. For instance, keyboard input simply wouldn't work under a FCFS only system.
+
+--Round Robin--
+The CPU schedules programs based on giving them a fixed unit of time called a
+'quantum'. Shorter quantums should theoretically
+give every process a 'fair' go. However, there is a degree of overhead on
+switching processes. Making the quantum longer will increase throughput for
+large jobs, but negatively impacts response time.
+
+-- Multi-level queues --
+This aims to get 'quick jobs' out the door, by prioritising queues of new
+processes. Pre-empting will allow processes with higher priority (eg. newly
+arrived processes) to interrupt the currently running processes.
+
+The low quantum top levels should allow a good response time, and the higher
+quantum bottom levels have good throughput.
+
+<---Results--->
+Log files are attached in the 'Logs' folder.
+
+***spec.in 
+--time from process entering to finishing.
+
+pid	FCFS	RR			MLFQ_NP	MLFQ_PRE
+1		100	271		210		238
+2		285	281		277		293
+3		190	210		190		213
+4		225	159		147		160
+_________________________________
+avg.	200	230.3		206		226
+tt		295	291		287		313 (total time taken to complete)	
+
+Surprisingly, FCFS delivered the lowest average wait time for a process entering
+and finishing. However, the turnaround time of PID 4 was abysmal on FCFS
+compared to the other algorithms. Multi-level with no pre-empting delivered the
+best PID 3 & 4 results. Round Robin and pre-empting MLFQ had the longest average
+wait times.
+
+It's a tie between MLFQ_NP and FCFS here. However, when we factor in that MLFQ_NP
+required about 35 context switches. FCFS required only 6. While the simulation
+did not take into account such overhead, it is definitely an important fact to
+consider.
+
+***keyboard.in -- log stored in logs/keyboard.out
+
+pid			FCFS	RR		MLFQ_NP		MLFQ_PRE
+1 <long>		545	555	555			555
+2				245	11		7				11
+3				170	8		12				5
+
+Here we have an example with a large disparity in working times. A real life
+example of this might be compressing a file, and the user decides to use the
+keyboard.
+
+FCFS might be ok for doing batch jobs, but if a user was
+expecting to use the computer at the same time, it would be a futile task. The
+response time for pid 2 & 3 is simply too high to be useful.
+
+The pre-empting algorithm came out on top here, because when a keyboard input
+was detected (ie. pid 2 & 3 started), it 'interrupted' the currently long
+running task to immediately process the keybnoard inputs. Out of the 4
+tested, the pre-empting MLFQ algorithm is definitely best in an interactive 
+environment.
+
+***batch_job.in
+This file was designed with simultaneous entry times and equal runtime for each
+process. This was designed explicitly to show the failings of round_robin &
+MLFQ.
+
+FINISH TIME
+pid		FCFS	RR		MLFQ_NP	MLFQ_PRE	
+1			200	584	576		544
+2			400	592	588		572
+3			600	600	600		600
+
+Here, FCFS is the clear winner. FCFS got jobs out the door quicker, as opposed
+to RR & MLFQ which did completed every job with mediocre performance. It clearly
+shows why FCFS would be the right choice for doing batch jobs. However this
+example has no IO. What would happen if we threw a little IO in the mix?
+
+***batch_with_io.in - simultaneous entry
+
+FINISH TIME
+pid		FCFS	RR		MLFQ_NP	MLFQ_PRE
+1			650	746	714		671
+2			700	748	740		750
+3			750	750	750		740
+
+The result is nowhere near as diferent this time. FCFS is still the
+winner however.
+The pre-empting algorithm performed the best of the other three.
+In this situation, a hybrid of FCFS with pre-empting would have been ideal.
+After pid1's short IO had finished, it should have regained control of the CPU
+to finish off. However in a realistic setting, it is highly unlikely that you
+would be able to predict exactly how much computation time you needed.
+
+<-- Conclusion -->
+
+What's obvious is that there is no clear winner among the algorithms
+tested. Each had their own strengths and weaknesses. 
+
+-FCFS had good throughput performance, but suffered when a quick response was
+needed by a program with a short run time.
+
+-Round Robin was consistently the worst peforming of the lot. 
+It's a clear example of trying to please everyone and pleasing no one instead.
+The large number of context switches made this worse -- though a higher quantum
+might be a remedy.
+
+- MLFQ_NP generally performed a little worse than the MLFQ_PRE algorithm
+  with one notable example (spec.in)
+  However, the quantums were different among the two algorithms, and this
+  may have affected the outcome.
+
+While testing, it seemed as though a hybrid solution would have been ideal.
+
+One of the potential solutions might be 'priority scheduling' 
+-- with low priority long running jobs getting FCFS treatment, 
+and high priority interactive input pre-empting when needed.
+
+<--END FILE-->

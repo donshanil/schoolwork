@@ -1,0 +1,31 @@
+Part A and B and C complete
+
+Compile warning - unsigned int format for line 82. This doesn't mean much
+though.
+
+Not immediately clear how to load the input - it uses stdin.
+
+scanf() is vulnerable to buffer overflow. fgets is not vulnerable to this, it
+instead truncates the input.
+
+Lines including characters are longer than 80 characters. It is often
+suggested you keep this to 80 chars maximum. Your mileage may vary.
+
+Plenty of commenting.
+
+/* Code outputs expected output for both len and squares.
+
+Good code for taking the input and placing them in arrays.
+Interesting use of global variables to check for value. It is a good idea.
+Good basic_blocks implementation.
+
+Code indented well and consistently. As before however the longer than 80char
+lines throw this off a bit.
+
+You are going through the array twice for A/B + C. Perhaps there could have
+been a way to combine them.
+
+Overall impressed with the implementation. It makes me realise what I could
+have done differently.  
+
+

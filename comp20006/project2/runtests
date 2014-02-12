@@ -1,0 +1,93 @@
+#!/bin/sh
+# vim: ts=4 sw=4 et
+
+#set -x
+
+genexp=/home/subjects/comp20006/local/project2/gen_exp
+testdir=/home/subjects/comp20006/local/project2/test_cases
+
+/bin/rm -f core
+passed=""
+failed=""
+looped=""
+dumped=""
+failed_diffs=""
+todelete=""
+stagesimplemented=""
+for stage in A B C D E
+do
+    #test if the stage is implemented
+    rlimit -t 10 -T 10 ./virus -${stage} < ${testdir}/basecase
+    #./virus -${stage} < ${testdir}/basecase
+if test $? -eq 0
+then
+    stagesimplemented="${stagesimplemented}${stage}"
+for inp in ${testdir}/*.inp
+do
+    namebase=`basename ${inp} .inp`
+    nameinp="${testdir}/${namebase}.inp"
+    namestage="${namebase}${stage}"
+    nameout="${namebase}${stage}.out"
+    nameexp="${namebase}${stage}.exp"
+    namediff="${namebase}${stage}.diff"
+    nameerror="${namebase}${stage}.err"
+    rlimit -t 10 -T 10 ./virus -${stage} < ${nameinp} > ${nameout} 2> ${nameerror}
+    #./virus -${stage} < ${nameinp} > ${nameout} 2> ${nameerror}
+    if test -s core
+    then
+         dumped="${dumped} ${namestage}"
+	 /bin/rm -f core
+    else 
+    if test -s ${nameerror}
+    then
+         looped="${looped} ${namestage}"
+         /bin/rm -f ${nameerror}
+    else	
+        ${genexp} -${stage} < ${nameinp} > ${nameexp}
+        diff ${nameexp} ${nameout} > ${namediff}
+        if test -s ${namediff}
+        then
+            failed="${failed} ${namestage}"
+            failed_diffs="${failed_diffs} ${namediff}"
+            todelete="${todelete} ${nameout} ${nameexp} ${nameerror}"
+        else
+            passed="${passed} ${namestage}"
+            todelete="${todelete} ${nameout} ${nameexp} ${namediff} ${nameerror}"
+        fi
+    fi
+    fi
+done
+fi
+done
+
+/bin/rm -f ${todelete}
+
+if test "${failed}" = "" -a "${dumped}" = "" -a "${looped}" = ""
+then
+    echo "Stages (ABCDE) implemented = ${stagesimplemented}"
+    echo "All tests succeeded."
+    exit 0
+else
+    echo "Stages (ABCDE) implemented = ${stagesimplemented}"
+    echo "The following tests passed:"
+    echo "${passed}"
+    echo "The following tests failed:"
+    echo "${failed}"
+    for f in ${failed_diffs}
+    do
+	 echo "----------------------------------------"
+	 echo $f
+	 echo "----------------------------------------"
+         #cat $f
+	 head --lines=100 $f
+    done
+    echo "----------------------------------------"
+    echo "The following tests core dumped:"
+    echo "${dumped}"
+    echo "----------------------------------------"
+    echo "The following tests timed out:"
+    echo "${looped}"
+    exit 1
+fi
+
+exit 0

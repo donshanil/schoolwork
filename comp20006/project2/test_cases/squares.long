@@ -1,0 +1,22 @@
+[0x00400000]    0x8fa40000  lw     $a0, 0($sp)
+[0x00400004]    0x27a50004  addiu  $a1, $sp, 4 
+[0x00400008]    0x24a60004  addiu  $a2 $a1 4
+[0x0040000c]    0x00041080  sll    $v0 $a0 2
+[0x00400010]    0x00c23021  addu   $a2 $a2 $v0
+[0x00400014]    0x0c100009  jal    main   
+[0x00400018]    0x00000000  nop
+[0x0040001c]    0x3402000a  li     $v0 10
+[0x00400020]    0x0000000c  syscall
+main:
+[0x00400024]    0x34100001  li     $s0, 1        # i = 1
+[0x00400028]    0x3411000a  li     $s1, 10       # limit = 10
+test:
+[0x0040002c]    0x0230402a  sgt    $t0, $s0, $s1 # is i > limit?
+[0x00400030]    0x1d000006  bgtz   $t0, done     # if yes, goto "done"
+[0x00400034]    0x34020001  li     $v0, 1        # 1 means print_int
+[0x00400038]    0x72102002  mul    $a0, $s0, $s0 # square = i * i
+[0x0040003c]    0x0000000c  syscall
+[0x00400040]    0x22100001  addi   $s0, $s0, 1   # i = i + 1
+[0x00400044]    0x0810000b  j      test
+done:
+[0x00400048]    0x03e00008  jr $ra
