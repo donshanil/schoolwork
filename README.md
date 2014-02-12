@@ -8,5 +8,8 @@ Enclosed within this repository is a number of coding projects I completed as pa
 
 Some code may not be functional
 
-**COMP20006** - Coded in C
-**COMP30017** - Coded in C
+Listed in chronological order:    
+**COMP20006 Programming the Machine** - Coded in C     
+**SWEN20003 Object Oriented Software Development** - Coded In Java    
+**COMP30017 Operating Systems & Network Services** - Coded in C    
+**SWEN30007 Software Project ** - Personally coded in Javascript utilising Parse Cloud Code API
