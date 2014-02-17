@@ -10,6 +10,7 @@ Some code may not be functional
 
 Listed in chronological order:    
 **COMP20006 Programming the Machine** - Coded in C     
+**COMP20003 Algorhitms and Data Structures** - Coded in C    
 **SWEN20003 Object Oriented Software Development** - Coded In Java    
 **COMP30017 Operating Systems & Network Services** - Coded in C    
-**SWEN30007 Software Project ** - Personally coded in Javascript utilising Parse Cloud Code API
+**SWEN30007 Software Project** - Personally coded in Javascript utilising Parse Cloud Code API
