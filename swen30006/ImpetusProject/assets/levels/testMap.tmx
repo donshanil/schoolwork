@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Untitled-1" tilewidth="32" tileheight="32">
+  <image source="Untitled-1.png" width="64" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="friction" value="0.35"/>
+    <property name="solid" value="1"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="friction" value="0.95"/>
+    <property name="solid" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYmBgYKIyphYYyeYx4sHEhvVg8S8u9w4W95FiHnI8YFOLz/6h6F9s8sTaORT9i8uP+PIjer6kpfuoYR41MQBsngDK
+  </data>
+ </layer>
+</map>

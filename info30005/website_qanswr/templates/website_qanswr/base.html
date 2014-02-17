@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% load staticfiles %}
+	{% block css %}
+	{% endblock css %}
+	<link rel="stylesheet" type="text/css" href="{% static "website_qanswr/base.css" %}"/>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+	<script src="{% static "jquery-2.0.0.min.js" %}"> </script>
+</script> 
+<meta name="google-site-verification" content="PfgTq7Pv9rSQ4ecb6wiANJNg636IvH3QkAVWD7IP3Ds" />
+	<title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+	{% block header %}
+	<header> 
+		<table class="header-table">
+			<tr>
+				<td><a href="/"><img src="{% static "imgs/title.png" %}" border="0"></a></td>
+				<td><a href="/search">Search</a></td>
+				{% if user.is_authenticated %}
+				<td><a href="/create-question">Ask A Question</a></td>
+				{% endif %}
+				<td>
+					{% if user.is_authenticated %}
+						Hello <a href="/user/{{ user.username }}">{{ user.username }}</a> - <a href="/logout">Logout</a>
+					{% else %}
+						<a href="/login-register">Login/Register</a>
+					{% endif %}
+				</td>
+			</tr>
+		</table>
+
+	</header>
+	{% endblock %}
+
+	{% block content %}{% endblock %}
+	{% block footer %}
+	<footer>
+		<table class="footer-table">
+			<tr>
+				<td>Copyright 2013</td>
+				<td>Built by Tom Grundy &amp; Ben Chong</td>
+			</tr>
+		</table>
+	</footer>
+	{% endblock %}
+</body>
+</html>

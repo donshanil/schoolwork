@@ -1,0 +1,58 @@
+
+
+.votes
+{
+	
+}
+
+.user
+{
+	font-size:80%;
+	text-align:left;
+}
+
+.title{
+
+}
+
+table.questionblock
+{
+	border-collapse:collapse;
+}
+
+table.questionblock td:first-child
+{
+	border-collapse:collapse;
+	text-align:center;
+	width:50px;
+}
+
+th.title
+{
+	width:800px;
+	font-size:125%;
+	font-weight:700;
+	text-align:left;
+}
+.question
+{
+	padding:6px 0px 10px;
+	border-collapse:collapse;
+	border:1px solid;
+
+}
+
+.question:nth-child(odd) 
+{
+	background-color:#DDDDDD;
+}
+
+.question:nth-child(even) {
+
+	background-color:#EEEEEE;
+}
+
+.label_score
+{
+	font-size:60%;
+}

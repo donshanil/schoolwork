@@ -1,0 +1,36 @@
+{% extends "website_qanswr/base.html" %}
+
+{% load staticfiles %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "website_qanswr/user.css" %}"/>
+{% endblock css %}
+
+{% block title %}
+Profile page for {{ userInfo.username }}
+{% endblock %}
+
+{% block content %}
+
+<div class="page_title">{{userInfo.username}}'s profile</div>
+
+{% for item in activity %}
+
+	<div class="activity">
+	{% if item.isQuestion == True %}
+		<div class="username">{{userInfo.username}} asked a question:</div>
+		<div class="title"><a href="../question/{{ item.questionURL }}">{{item.title}}</a></div>
+		<div class="body">{{item.body}}</div>
+	{% elif item.isAnswer == True %}
+		<div class="username">{{userInfo.username}} answered a question:</div>
+		<div class="response-to">Response to - <a href="../question/{{ item.responseTo.questionURL }}">{{item.responseTo.title}}</a></div>
+		<div class="body">{{item.body}}</div>
+	{% elif item.isDiscussion == True %}
+		<div class="username">{{userInfo.username}} discussed an answer:</div>
+		<div class="response-to">Response to - <a href="../question/{{ item.responseTo.responseTo.questionURL }}">{{item.responseTo.responseTo.title}}</a></div>
+		<div class="body">{{item.body}}<br></div>
+	{% endif %}
+	</div>
+{% endfor %}
+
+{% endblock %}

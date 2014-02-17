@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="45" height="45" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
+  <image source="tiles.png" width="192" height="32"/>
+  <tile id="1">
+   <properties>
+    <property name="friction" value="0.95"/>
+    <property name="solid" value="1"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="end" value="1"/>
+    <property name="solid" value="1"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="up" value="1"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="down" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="45" height="45">
+  <data encoding="base64" compression="zlib">
+   eJztmdEKxCAMBKVc/f9PLkIFES1Xs7tR6kAe+jaEmGh6hBCOBWMltrOG7axhO2v4gvPJEnnBiHMOL3rOv9Cfl2cjlFjr2cMbdQaV7ui+saoz23s7a+qaNQeZ3szZzfJGO8c7MgxvRp5j9Y32Zjn3vBHurHqO4dndAvv+3HK3eqvu/Micq98piJx7Oyfenk+lc+1aM5NzK7cls+X5yXe0Z6v7c8bS71RzsGS2/sz2TSCdFb4JhPO/tYu621mdVbktGXVW57bk62/YlfZI6p0daseoZNTZcw9tcfbC+5/1aFxeNgPz
+  </data>
+ </layer>
+</map>

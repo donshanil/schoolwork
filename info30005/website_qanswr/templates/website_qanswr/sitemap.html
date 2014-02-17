@@ -1,0 +1,42 @@
+{% extends "website_qanswr/base.html" %}
+
+{% load staticfiles %}
+{% block css %}
+
+{% endblock css %}
+
+{% block title %}
+	Sitemap - qanswr - quality questions and answers. Q&amp;A with citations, achievements and rankings.
+{% endblock %}
+
+{% block content %}
+
+	<div class="home">
+		<a href="/"> Home </a>
+	</div>
+
+	<div class="ask-a-question"> 
+		<a href="/create-question"> Ask a question </a>
+	</div>
+
+	<div class="login-register">
+		<a href="/login-register"> Login or register </a>
+	</div>
+
+	<div class="questions"> 
+		{% for question in questions %}
+			<div class="question">
+				<div class="title"><a href="/question/{{ question.questionURL }}">{{ question.title }}</a></div>
+			</div>
+		{% endfor %}
+	</div>
+
+	<div class="users"> 
+		{% for userInfo in users %}
+			<div class="user">
+				<div class="title"><a href="/user/{{ userInfo.username }}">{{ userInfo.username }}</a></div>
+			</div>
+		{% endfor %}
+	</div>
+
+{% endblock %}

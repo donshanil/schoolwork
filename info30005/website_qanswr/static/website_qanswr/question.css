@@ -1,0 +1,75 @@
+.questionBlock
+{
+	background-color:#fff;
+	padding: 0px 5px;
+}
+.answerblock
+{
+	background-color:#eeeeee;
+	padding: 5px;
+}
+.discussionblock
+{
+	margin-left:30px;
+	font-size: 85%;
+	width:500px;	
+	border-radius: 5px;
+	border-collapse:collapse;
+	
+}
+.discussion: {padding: 4px;}
+.discussion:nth-child(odd) {background-color:#DDDDDD;}
+.discussion:nth-child(even) {background-color:#EEEEEE;}
+.discussionbody{font-size:90%;}
+.discussionuser{font-size:75%;}
+.answer
+{
+	background-color:#ffffff;
+	border-radius: 10px;
+	border-collapse:collapse;
+}
+
+table.answer
+{
+	padding: 0px;
+	width:800px;
+}
+
+
+td.arrows
+{
+	width:30px;
+	text-align:center;
+}
+
+td.arrows_question
+{
+	padding: 5px;
+	text-align:center;
+}
+
+p.small
+{
+	line-height:75%;
+}
+
+.username
+{
+	font-size:80%;
+}
+
+
+.taglist
+{
+	font-size:80%;
+}
+
+.arrows
+{
+	text-align:center;
+}
+
+.citation
+{
+	font-size: 75%;
+}

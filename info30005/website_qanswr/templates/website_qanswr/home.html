@@ -1,0 +1,30 @@
+{% extends "website_qanswr/base.html" %}
+
+{% load staticfiles %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "website_qanswr/home.css" %}" />
+{% endblock css %}
+
+{% block title %}
+	qanswr - quality questions and answers. Q&amp;A with citations, achievements and rankings.
+{% endblock %}
+
+{% block content %}
+
+	<div class="contentBlock"> 
+		{% for question in questions %}
+			<div class="question">
+				<table class="questionblock">
+				<tr>
+				<td rowspan="2"><div class="label_score">score</div><div class="votes">{{ question.rank }}</div></td>
+				<th class="title">Q: <a href="question/{{ question.questionURL }}">{{ question.title }}</a></th>
+				</tr>
+				<tr>
+				<td class="user_tbl"><div class="user">Asked by: <a href="user/{{ question.user }}">{{ question.user }}</a></div></td>
+				</tr>
+				</table>
+			</div>
+		{% endfor %}
+	</div>
+
+{% endblock %}

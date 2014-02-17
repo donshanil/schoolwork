@@ -1,0 +1,43 @@
+table.main-table 
+{
+	margin-left: auto;
+	margin-right: auto;
+	table-layout: fixed;
+	width:50%;
+}
+table.main-table td.title
+{
+	text-align: center;
+}
+
+table.main-table td
+{
+	text-align:right;
+}
+
+table.main-table td + td
+{
+	text-align:left;
+}
+
+table.main-table td.button
+{
+	text-alight:left;
+}
+
+table.login
+{
+	background-color:#B3B9FF;
+	border-radius: 20px 0px;
+}
+table.register
+{
+	background-color:#32CB99;
+	border-radius: 0px 20px;
+}
+
+.error-message
+{
+	color:red;
+	text-align:center;
+}

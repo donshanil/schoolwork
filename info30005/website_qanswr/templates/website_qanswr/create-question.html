@@ -1,0 +1,28 @@
+{% extends "website_qanswr/base.html" %}
+
+{% load staticfiles %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "website_qanswr/create-question.css" %}"/>
+{% endblock css %}
+
+{% block title %}
+QANSWR - Ask a question! Get points!
+{% endblock %}
+
+{% block content %}
+
+<div class="contentBlock">
+<form action="/submit-question/" method="post"> {% csrf_token %}
+	<div class="page_title">Ask a question</div><br>
+	<label for="title">Question</label><br>
+	<textarea type="text" name="title" class="questionbox"></textarea><br>
+	<label for="question">Explain your question</label><br>
+	<textarea type="text" name="question" class="inputbox"></textarea><br>
+	<label for="tags">Tags</label><br>
+	<input type="text" name="tags" class="commentbox"><br>
+	<input type="submit" value="Submit">
+</form>
+</div>
+
+{% endblock %}

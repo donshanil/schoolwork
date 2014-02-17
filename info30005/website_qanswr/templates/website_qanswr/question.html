@@ -1,0 +1,227 @@
+{% extends "website_qanswr/base.html" %}
+
+{% load get_item %}
+
+{% load staticfiles %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "website_qanswr/question.css" %}"/>
+{% endblock css %}
+
+
+
+{% block title %}
+{{ question.title }} - QAnswr.
+{% endblock %}
+<script type="text/javascript" src="/media/web/jquery.js"></script>
+{% block content %}
+
+
+
+<!--TODO: Only display the upvote and downvote spans if user not in VotedOnBy 
+-->
+
+{% if titleNotUnique %}
+	<p class="error-message"> Question title must be unique, please try again. </p>
+{% elif notLoggedIn %}
+	<p class="error-message"> To submit a question, you must be logged in. </p>
+{% endif %}
+
+<div class="questionBlock">
+<table>
+<td class="arrows_question">
+{% if hasVotedOn|get_item_dict:question.pk != "up" and hasVotedOn|get_item_dict:question.pk != "down" %}
+	<div class="upvote" id="upvoteQuestion"><img src="{% static "imgs/up-not-used.png" %}"/></div>
+{% elif hasVotedOn|get_item_dict:question.pk == "up" %}
+	<div class="upvote" ><img src="{% static "imgs/up-used.png" %}" width="25" height = "25" /></div>
+{% else %}
+	<div class="upvote" ><img src="{% static "imgs/up-not-used.png" %}" width="25" height = "25" /></div>
+{% endif %}
+	<div class="rank" id="questionRank"> {{question.rank}} </div>
+{% if hasVotedOn|get_item_dict:question.pk != "up" and hasVotedOn|get_item_dict:question.pk != "down" %}
+	<div class="downvote" id="downvoteQuestion"><img src="{% static "imgs/down-not-used.png" %}" width="25" height = "25" /></div>	
+{% elif hasVotedOn|get_item_dict:question.pk == "down" %}
+	<div class="downvote"><img src="{% static "imgs/down-used.png" %}" width="25" height = "25" /></div>
+{% else %}
+	<div class="downvote"><img src="{% static "imgs/down-not-used.png" %}" width="25" height = "25" /></div>
+{% endif %}
+</td>
+
+<td>
+<div class="page_title">{{question.title}}</div>
+<div class="username"><p class="small">Asked by: <a href="/user/{{ question.user.username }}">{{question.user.username}}<br></p></div></td>
+</table>
+</div>
+
+
+<div class="contentBlock">
+{{question.body}} <br>
+</div>
+<div class="taglist">
+Tags:
+{% for tag in question.tags.all %}
+	{{ tag.tag }}
+{% endfor %}
+
+</div>
+
+{% if user.is_authenticated %}
+<!--
+	Render the answer box
+-->
+	<form action="/submit-answer/" method="post"> {% csrf_token %}
+		<b>Know how to help?</b><br>
+		<label for="answer">Answer</label><br>
+		<textarea type="text" name="answer"  align="top" class="inputbox"></textarea><br>
+		<label for="citation">Citation</label><br>
+		<textarea type="text" name="citation" class="commentbox"></textarea><br>
+		<input type="submit" value="Submit"><br>
+	</form>
+
+
+
+
+{% else %}
+<br>
+Register now to be able to answer this question!<br>
+<a href="/login-register">Register</a><br><br>
+
+{% endif %}
+
+<!--
+	Render the answers. For each answer, render the discussion below it. Later you will have to figure out how to hide these answers, and paginate the site
+-->
+
+{% for answer in answers %}
+	<!-- FIX THIS STUFF BELOW, MAKE IT PROPER UPVOTE, DOWNVOTE STUFF, LIKE IN
+	QUESTION
+	-->
+	<div class="answerblock">
+	<table class="answer">
+	<tr>
+	<td class="arrows" rowspan="3">
+	{% if hasVotedOn|get_item_dict:answer.0.pk != "up" and hasVotedOn|get_item_dict:answer.0.pk != "down" %}
+		<div class="upvote" id="upvoteAnswer{{ forloop.counter0 }}"><img src="{% static "imgs/up-not-used.png" %}" width="15" height="15" /></div>
+	{% elif hasVotedOn|get_item_dict:answer.0.pk == "up" %}
+		<div class="upvote"> <img src="{% static "imgs/up-used.png" %}" width="15" height="15" /> </div>
+	{% else %}
+		<div class="upvote"> <img src="{% static "imgs/up-not-used.png" %}" width="15" height="15" /> </div>
+	{% endif %}
+		<div class="rank" id="answerRank{{ forloop.counter0 }}">{{answer.0.rank}} </div>
+	{% if hasVotedOn|get_item_dict:answer.0.pk != "up" and hasVotedOn|get_item_dict:answer.0.pk != "down" %}
+		<div class="downvote" id="downvoteAnswer{{ forloop.counter0 }}"><img src="{% static "imgs/down-not-used.png" %}" width="15" height="15" /></div>
+	{% elif hasVotedOn|get_item_dict:answer.0.pk == "down" %}
+		<div class="downvote"><img src="{% static "imgs/down-used.png" %}" width="15" height="15" /></div>
+	{% else %}
+		<div class="downvote"><img src="{% static "imgs/down-not-used.png" %}" width="15" height="15" /></div>
+	{% endif %}
+	</td>
+	<td><div class="answer">{{ answer.0.body }}</div></td>
+	<tr>
+	<td><div class="username">posted by: <a href="/user/{{answer.0.user.username}}">{{ answer.0.user.username}}</a></div></td>
+	<tr>
+	<td><div class="citation">Citation:
+	{% for citation in answer.1 %}
+		{{ citation.body }}
+	{% endfor %}
+	</td></div>
+	</table>
+	<div class="discussionblock">
+	
+	{% for discussion in answer.2 %}
+	<div class="discussion">
+		<div class="discussionbody">{{ discussion.body }}<br></div>
+		<div class="discussionuser">- <a href="/user/{{ discussion.user.username}}">{{ discussion.user.username}}</a><br></div>
+		</div>
+	{% endfor %}
+	
+	{% if user.is_authenticated %}
+
+		<form action="/submit-discussion/" method="post"> {% csrf_token %}
+			<label for="discussion">Comment</label>
+			<input type="text" name="discussion" class="commentbox">
+			<input type="hidden" name="responseTo" value="{{ answer.0.body }}"><input type="submit" value="Submit"><br>
+		</form>
+	{% endif %}
+	</div>
+
+
+	</div>
+	
+{% endfor %}
+
+<!-- UPBOATS GO HERE -->
+<script>
+	function vote(kind,pk_voted_on) {
+		$.getJSON("/vote/", 
+		{
+			// make pk a parameter
+			pk: pk_voted_on,
+			vote: kind,
+			user_pk: {{user.pk}}
+		}, function() {
+
+		});
+	}
+	// MAKE THIS UPDATE THE IMAGE
+	function refreshRank(kind, tagName, upName, downName) {
+		var rankTag = $("#"+tagName+":first");
+		var upTag = $("#"+upName+":first");
+		var downTag = $("#"+downName+":first");
+		var rank = parseInt(rankTag.text());
+
+		if (!isNaN(rank))
+		{
+			if (kind == "down")
+			{
+				rank--;
+				rankTag.text(String(rank));
+				downTag.children("img").attr("src","{% static 'imgs/down-used.png' %}")
+				downTag.unbind('click');
+				upTag.unbind('click');
+				//downTag.text(<img src="{% static 'imgs/down-used.png' %}" />);
+				//upTag.text("<img src="{% static "imgs/up-used.png" %}" />");
+			}
+			else
+			{
+				rank++;
+				rankTag.text(String(rank));
+				upTag.children("img").attr("src","{% static 'imgs/up-used.png' %}");
+				upTag.unbind('click');
+				downTag.unbind('click');
+				//downTag.text("");
+				//upTag.text(<img src="{% static 'imgs/up-used.png' %}" />);
+
+			}
+		}
+	}
+
+	function addClickHandlers() {
+		$("#upvoteQuestion").click( function() {
+			vote("up", "{{ question.pk }}"),
+			refreshRank("up", "questionRank", "upvoteQuestion", "downvoteQuestion");
+		});
+		$("#downvoteQuestion").click( function() { 
+			vote("down", "{{ question.pk }}"),
+			refreshRank("down", "questionRank", "upvoteQuestion", "downvoteQuestion");
+		});
+
+		
+		{% for answer in answers %}
+				
+		$("#upvoteAnswer{{ forloop.counter0 }}").click( function() {
+			vote("up", "{{ answer.0.pk }}"),
+			refreshRank("up", "answerRank{{ forloop.counter0 }}", "upvoteAnswer{{ forloop.counter0 }}", "downvoteAnswer{{ forloop.counter0 }}");
+		});
+		$("#downvoteAnswer{{ forloop.counter0 }}").click( function() { 
+			vote("down", "{{ answer.0.pk }}"),
+			refreshRank("down", "answerRank{{ forloop.counter0 }}", "upvoteAnswer{{ forloop.counter0 }}", "downvoteAnswer{{ forloop.counter0 }}");
+		});	
+
+
+		{% endfor %}
+	}
+	$(document).ready(addClickHandlers);
+</script>
+
+{% endblock %}

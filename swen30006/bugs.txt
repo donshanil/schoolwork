@@ -1,0 +1,3 @@
+- if the framerate is too low and the player's speed too high, the character's predicted position will be outside the gamearea, causing an arrayindexoutofbounds exception
+- player model should be thinner than two tiles
+- friction is not accounted for yet.
